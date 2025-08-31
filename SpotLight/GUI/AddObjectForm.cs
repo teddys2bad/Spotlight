@@ -237,6 +237,11 @@ namespace Spotlight.GUI
                 new PathPoint(new Vector3(-6,0,3), new Vector3(0,0,2), new Vector3(0,0,-2)),
             },
             true));
+            PathShapeSelector.AddShape(new PathShape("Custom", new PathPoint[]
+            {
+                new PathPoint(Vector3.Zero, Vector3.Zero, Vector3.Zero),
+            },
+            true));
 
             //PathShapeComboBox.SelectedIndex = 0;
             #endregion
@@ -601,8 +606,6 @@ namespace Spotlight.GUI
             currentEditInfo.EnglishName = EnglishNameTextBox.Text;
             OnInformationEdited();
         }
-
-
 
         private void NewAddObjectForm_FormClosing(object sender, FormClosingEventArgs e)
         {

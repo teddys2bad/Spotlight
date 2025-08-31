@@ -99,6 +99,8 @@ namespace Spotlight
     {
         public int WorldID { get; set; }
 
+        public string Name { get; }
+
         public IReadOnlyList<LevelParam> Levels => levels;
 
         private List<LevelParam> levels = new List<LevelParam>();
@@ -111,6 +113,23 @@ namespace Spotlight
             foreach (dynamic levelEntry in temp.OrderBy(O=>O["StageId"]))
                 levels.Add(new LevelParam(levelEntry));
         }
+        public World(dynamic WorldInfo, int worldID)
+        {
+            WorldID = worldID;
+            Name = WorldInfo["Name"];
+            List<dynamic> temp = WorldInfo["StageList"];
+
+            int i = 0;
+
+            foreach (dynamic levelEntry in temp)
+            {
+                LevelParam level = new LevelParam();
+                level.StageID = i++;
+                level.StageName = levelEntry["name"];
+                levels.Add(level);
+            }
+        }
+
 
         public int Add(LevelParam levelParam)
         {
@@ -206,39 +225,56 @@ namespace Spotlight
         /// </summary>
         public List<World> Worlds;
 
-        public static bool TryOpen(string filename, out StageList stageList)
+        public bool IsOdyssey { get; }
+
+        public static bool TryOpen(string filename, out StageList stageList, bool isOdyssey)
         {
             stageList = null;
 
             SarcData sarc = SARC.UnpackRamN(YAZ0.Decompress(filename));
             
             BymlFileData byml;
-            if (sarc.Files.ContainsKey("StageList.byml"))
-                byml = ByamlFile.LoadN(new MemoryStream(sarc.Files["StageList.byml"]), true, ByteOrder.BigEndian);
-            else
-                throw new Exception("Failed to find the StageList");
-
-
-            if (!byml.RootNode.TryGetValue("WorldList", out dynamic worldList))
-                return false;
-
 
             List<World> worlds = new List<World>();
 
-            for (int i = 0; i < worldList.Count; i++)
-                worlds.Add(new World(worldList[i]));
+            if (!isOdyssey)
+            {
+                if (sarc.Files.ContainsKey("StageList.byml"))
+                    byml = ByamlFile.LoadN(new MemoryStream(sarc.Files["StageList.byml"]), true, ByteOrder.BigEndian);
+                else
+                    throw new Exception("Failed to find the StageList");
+                if (!byml.RootNode.TryGetValue("WorldList", out dynamic worldList))
+                    return false;
+                for (int i = 0; i < worldList.Count; i++)
+                    worlds.Add(new World(worldList[i]));
 
-            stageList = new StageList(filename, worlds, byml.byteOrder);
+            }
+            else
+            {
+                if (sarc.Files.ContainsKey("WorldListFromDb.byml"))
+                    byml = ByamlFile.LoadN(new MemoryStream(sarc.Files["WorldListFromDb.byml"]), true, ByteOrder.BigEndian);
+                else
+                    throw new Exception("Failed to find the WordList");
+                List<Object> lst = (List<Object>)byml.RootNode;
+                int i = 0;
+                foreach (Object obj in lst)
+                {
+                    worlds.Add(new World(obj, i++));
+                }
+            }
+
+            stageList = new StageList(filename, worlds, byml.byteOrder, isOdyssey);
 
             return true;
         }
 
-        private StageList(string filename, List<World> worlds, ByteOrder byteOrder)
+        private StageList(string filename, List<World> worlds, ByteOrder byteOrder, bool isOdyssey)
         {
 
             Worlds = worlds;
             Filename = filename;
             ByteOrder = byteOrder;
+            IsOdyssey = isOdyssey;
         }
 
         public int GetNextUniqueCourseID()

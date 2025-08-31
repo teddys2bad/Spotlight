@@ -68,7 +68,7 @@ namespace Spotlight.GUI
                     LevelGLControlModern.PerformKeyUp(new KeyEventArgs(keyData));
                 }
             }
-            else if(IsExclusiveKey(keyData))
+            else if (IsExclusiveKey(keyData))
                 return false;
 
             return base.ProcessKeyPreview(ref m);
@@ -83,7 +83,7 @@ namespace Spotlight.GUI
                 (keyData & Keys.KeyCode) == Keys.Menu) //Alt key
                 return true; //would trigger the menu otherwise
 
-            else if (!LevelGLControlModern.IsHovered && IsExclusiveKey(keyData)) 
+            else if (!LevelGLControlModern.IsHovered && IsExclusiveKey(keyData))
                 return false; //would trigger the copy/paste action and prevent copy/paste for textboxes
             else
                 return base.ProcessCmdKey(ref msg, keyData);
@@ -101,7 +101,7 @@ namespace Spotlight.GUI
         }
 
         public LevelEditorForm(DocumentTabControl.DocumentTab[] documentTabs, DocumentTabControl.DocumentTab selectedTab, QuickFavoriteControl.QuickFavorite[] quickFavorites)
-            :this()
+            : this()
         {
             foreach (var item in documentTabs)
             {
@@ -115,7 +115,7 @@ namespace Spotlight.GUI
 
             ZoneDocumentTabControl.Select(selectedTab);
 
-            if(currentScene!=null)
+            if (currentScene != null)
             {
                 SetAppStatus(true);
 
@@ -139,7 +139,7 @@ namespace Spotlight.GUI
             AddObjectToolStripMenuItem.ShortcutKeyDisplayString = KeyStrokeName(KS_AddObject);
             DeleteToolStripMenuItem.ShortcutKeyDisplayString = KeyStrokeName(KS_DeleteSelected);
 
-            GrowSelectionToolStripMenuItem.ShortcutKeyDisplayString = KeyStrokeName(Keys.Control|Keys.Oemplus).Replace("Oemplus","+");
+            GrowSelectionToolStripMenuItem.ShortcutKeyDisplayString = KeyStrokeName(Keys.Control | Keys.Oemplus).Replace("Oemplus", "+");
 
             MainTabControl.SelectedTab = ObjectsTabPage;
             LevelGLControlModern.CameraDistance = 20;
@@ -147,9 +147,12 @@ namespace Spotlight.GUI
             MainSceneListView.ListExited += MainSceneListView_ListExited;
             MainSceneListView.SelectionChanged += SceneListView3dWorld1_SelectionChanged;
 
+
             splitContainer2.Panel2.DoubleClick += SplitContainer2_Panel2_DoubleClick;
 
 #if ODYSSEY
+            LayerListControl.ScenarioConfigChanged += LayerListControl_ScenarioConfigChanged;
+
             ScenarioComboBox.Items.AddRange(new object[]
             {
                 "Scenario 0/1",
@@ -168,7 +171,7 @@ namespace Spotlight.GUI
                 "Scenario 14",
                 "Scenario 15",
             });
-            
+
             ScenarioComboBox.SelectedIndexChanged += ScenarioComboBox_SelectedIndexChanged;
 
             LayersTabPage.Controls.Add(ScenarioComboBox);
@@ -225,7 +228,7 @@ namespace Spotlight.GUI
                             });
                             DatabaseGenThread.Start();
                             Program.ParameterDB = new ObjectParameterDatabase();
-                            Program.ParameterDB.Create(Program.BaseStageDataPath);
+                            Program.ParameterDB.Create(new List<string>([Program.GamePath, Program.ProjectPath]));
                             Program.ParameterDB.Save(Program.SOPDPath);
                             if (DatabaseGenThread.IsAlive)
                                 LoadLevelForm.DoClose = true;
@@ -275,7 +278,7 @@ namespace Spotlight.GUI
                                 });
                                 DatabaseGenThread.Start();
                                 Program.ParameterDB = new ObjectParameterDatabase();
-                                Program.ParameterDB.Create(Program.BaseStageDataPath);
+                                Program.ParameterDB.Create(new List<string>([Program.GamePath, Program.ProjectPath]));
                                 Program.ParameterDB.Save(Program.SOPDPath);
                                 if (DatabaseGenThread.IsAlive)
                                     LoadLevelForm.DoClose = true;
@@ -321,6 +324,11 @@ namespace Spotlight.GUI
             {
                 Program.Client.SetPresence(Program.Default_Presence);
             };
+        }
+
+        private void LayerListControl_ScenarioConfigChanged(object sender, EventArgs e)
+        {
+            LevelGLControlModern.Refresh();
         }
 
         private void LevelGLControlModern_DragEnter(object sender, DragEventArgs e)
@@ -387,7 +395,7 @@ namespace Spotlight.GUI
                             isFullySelected = false;
                     }
 
-                    if(isFullySelected)
+                    if (isFullySelected)
                         fullySelectedRails.Add(rail);
                 }
                 else
@@ -431,7 +439,7 @@ namespace Spotlight.GUI
                 SpotlightToolStripStatusLabel.Text = SelectedText + $" {SelectedObjects}";
 
 
-                if(fullySelectedRails.Count==1 && selection.Count == fullySelectedRails[0].PathPoints.Count)
+                if (fullySelectedRails.Count == 1 && selection.Count == fullySelectedRails[0].PathPoints.Count)
                 {
                     MainTabControl.SelectedTab = ObjectsTabPage;
                     MainSceneListView.TryEnsureVisible(fullySelectedRails[0]);
@@ -444,7 +452,7 @@ namespace Spotlight.GUI
                 object selected = selection.First();
 
                 CurrentObjectLabel.Text = selected.ToString() + " " + SelectedText.ToLower();
-                SpotlightToolStripStatusLabel.Text = SelectedText+$" \"{selected.ToString()}\".";
+                SpotlightToolStripStatusLabel.Text = SelectedText + $" \"{selected.ToString()}\".";
 
                 MainTabControl.SelectedTab = ObjectsTabPage;
                 MainSceneListView.TryEnsureVisible(selected);
@@ -495,7 +503,7 @@ namespace Spotlight.GUI
             General3dWorldObject obj = (currentScene.SelectedObjects.First() as General3dWorldObject);
             Rail rail = (currentScene.SelectedObjects.First() as Rail);
 
-            if(Debugger.IsAttached)
+            if (Debugger.IsAttached)
                 Debugger.Break();
             else
             {
@@ -616,7 +624,7 @@ namespace Spotlight.GUI
 
             //                      --------ARRAY COPY--------
 
-            Vector3 offset = new Vector3(0,0,-20);
+            Vector3 offset = new Vector3(0, 0, -20);
 
             int num = 10;
 
@@ -626,7 +634,7 @@ namespace Spotlight.GUI
             {
                 var copy = new General3dWorldObject(pos, obj.Rotation, Vector3.One,
                     currentScene.EditZone.NextObjID(), obj.ObjectName, obj.ModelName, obj.ClassName, Vector3.Zero, obj.DisplayName,
-                    new Dictionary<string, List<I3dWorldObject>>(), ObjectUtils.DuplicateProperties(obj.Properties), currentScene.EditZone);
+                    new Dictionary<string, List<I3dWorldObject>>(), ObjectUtils.DuplicateProperties(obj.Properties), currentScene.EditZone, currentScene.EditZone.CommonLayer);
 
                 objectsToAdd.Add(copy);
             }
@@ -638,7 +646,7 @@ namespace Spotlight.GUI
 
             AdditionManager additionManager = new AdditionManager();
 
-            additionManager.Add(currentScene.EditZone.ObjLists.First(x=>x.Value.Contains(obj)).Value, objectsToAdd.ToArray());
+            additionManager.Add(currentScene.EditZone.ObjLists.First(x => x.Value.Contains(obj)).Value, objectsToAdd.ToArray());
 
             currentScene.ExecuteAddition(additionManager);
         }
@@ -652,13 +660,17 @@ namespace Spotlight.GUI
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog() { Filter =
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                Filter =
                 $"{FileLevelOpenFilter.Split('|')[0]}|*Stage{SM3DWorldZone.MAP_SUFFIX};*Stage{SM3DWorldZone.COMBINED_SUFFIX};*Island{SM3DWorldZone.COMBINED_SUFFIX}|" +
+                $"{FileLevelOpenFilter.Split('|')[0]}|*HomeStage{SM3DWorldZone.MAP_SUFFIX}|" +
                 $"{FileLevelOpenFilter.Split('|')[0]}|*{SM3DWorldZone.MAP_SUFFIX}|" +
                 $"{FileLevelOpenFilter.Split('|')[1]}|*{SM3DWorldZone.DESIGN_SUFFIX}|" +
                 $"{FileLevelOpenFilter.Split('|')[2]}|*{SM3DWorldZone.SOUND_SUFFIX}|" +
                 $"{FileLevelOpenFilter.Split('|')[3]}|*.szs",
-                InitialDirectory = currentScene?.EditZone.Directory ?? (Program.ProjectPath.Equals("") ? Program.BaseStageDataPath : System.IO.Path.Combine(Program.ProjectPath, "StageData")) };
+                InitialDirectory = currentScene?.EditZone.Directory ?? (Program.ProjectPath.Equals("") ? Program.BaseStageDataPath : System.IO.Path.Combine(Program.ProjectPath, "StageData"))
+            };
 
             SpotlightToolStripStatusLabel.Text = StatusWaitMessage;
 
@@ -670,12 +682,18 @@ namespace Spotlight.GUI
 
         private void OpenExToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool isOdyssey = false;
             string stagelistpath = Program.TryGetPathViaProject("SystemData", "StageList.szs");
             if (!File.Exists(stagelistpath))
             {
-                MessageBox.Show(string.Format(LevelSelectMissing, stagelistpath), "404", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                SpotlightToolStripStatusLabel.Text = StatusOpenFailedMessage;
-                return;
+                isOdyssey = true;
+                stagelistpath = Program.TryGetPathViaProject("SystemData", "WorldList.szs");
+                if (!File.Exists(stagelistpath))
+                {
+                    MessageBox.Show(string.Format(LevelSelectMissing, stagelistpath), "404", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SpotlightToolStripStatusLabel.Text = StatusOpenFailedMessage;
+                    return;
+                }
             }
             SpotlightToolStripStatusLabel.Text = StatusWaitMessage;
             Refresh();
@@ -683,7 +701,7 @@ namespace Spotlight.GUI
 
             LevelSelectForm LPSF;
 
-            if (StageList.TryOpen(stagelistpath, out var STGLST))
+            if (StageList.TryOpen(stagelistpath, out var STGLST, isOdyssey))
                 LPSF = new LevelSelectForm(STGLST, true);
             else
             {
@@ -698,7 +716,7 @@ namespace Spotlight.GUI
 
                 foreach (var season in byml.RootNode["SeasonList"])
                 {
-                    seasons.Add(((List<dynamic>)season["StageList"]).Select(x => (string)x["StageName"]).Where(x=>!regex.IsMatch(x)).ToList());
+                    seasons.Add(((List<dynamic>)season["StageList"]).Select(x => (string)x["StageName"]).Where(x => !regex.IsMatch(x)).ToList());
                 }
 
                 LPSF = new LevelSelectForm(seasons);
@@ -768,10 +786,10 @@ namespace Spotlight.GUI
         {
             if (Program.ParameterDB == null)
             {
-//                MessageBox.Show(
-//@"Y o u  c h o s e  n o t  t o  g e n e r a t e
-//a  v a l i d  d a t a b a s e  r e m e m b e r ?
-//= )"); //As much as I wish we could keep this, we can't.
+                //                MessageBox.Show(
+                //@"Y o u  c h o s e  n o t  t o  g e n e r a t e
+                //a  v a l i d  d a t a b a s e  r e m e m b e r ?
+                //= )"); //As much as I wish we could keep this, we can't.
 
                 DialogResult DR = MessageBox.Show(DatabaseInvalidText, DatabaseInvalidHeader, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (DR == DialogResult.Yes)
@@ -783,7 +801,7 @@ namespace Spotlight.GUI
                     });
                     DatabaseGenThread.Start();
                     Program.ParameterDB = new ObjectParameterDatabase();
-                    Program.ParameterDB.Create(Program.BaseStageDataPath);
+                    Program.ParameterDB.Create(new List<string>([Program.GamePath, Program.ProjectPath]));
                     Program.ParameterDB.Save(Program.SOPDPath);
                     if (DatabaseGenThread.IsAlive)
                         LoadLevelForm.DoClose = true;
@@ -795,7 +813,7 @@ namespace Spotlight.GUI
             var form = new AddObjectForm(currentScene, QuickFavoriteControl);
             form.ShowDialog(this);
 
-            if(form.SomethingWasSelected)
+            if (form.SomethingWasSelected)
             {
                 SpotlightToolStripStatusLabel.Text = StatusObjectPlaceNoticeMessage;
 
@@ -817,7 +835,7 @@ namespace Spotlight.GUI
             {
                 currentScene.EditZoneIndex = 0;
 
-                var zonePlacement = new ZonePlacement(Vector3.Zero, Vector3.Zero, currentScene.DrawLayer, zone);
+                var zonePlacement = new ZonePlacement(Vector3.Zero, Vector3.Zero, currentScene.EditZone.CommonLayer, zone);
                 currentScene.ZonePlacements.Add(zonePlacement);
                 currentScene.SelectedObjects.Clear();
                 zonePlacement.SelectDefault(LevelGLControlModern);
@@ -980,7 +998,7 @@ namespace Spotlight.GUI
 
                 for (int i = 0; i < selected.Length; i++)
                 {
-                    if(!selected[i].TryGetObjectList(currentScene.EditZone, out ObjectList _objList))
+                    if (!selected[i].TryGetObjectList(currentScene.EditZone, out ObjectList _objList))
                         _objList = linkedObjs;
 
 
@@ -1023,16 +1041,21 @@ namespace Spotlight.GUI
 
         private void LevelParametersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool isOdyssey = false;
             string stagelistpath = Program.TryGetPathViaProject("SystemData", "StageList.szs");
             if (!File.Exists(stagelistpath))
             {
-                MessageBox.Show(string.Format(LevelSelectMissing, stagelistpath), "404", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                stagelistpath = Program.TryGetPathViaProject("SystemData", "WordList.szs");
+                if (!File.Exists(stagelistpath))
+                {
+                    MessageBox.Show(string.Format(LevelSelectMissing, stagelistpath), "404", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             SpotlightToolStripStatusLabel.Text = StatusWaitMessage;
             Refresh();
 
-            if(!StageList.TryOpen(stagelistpath, out var STGLST))
+            if (!StageList.TryOpen(stagelistpath, out var STGLST, isOdyssey))
             {
                 MessageBox.Show(InvalidStageListFormatText, InvalidStageListFormatHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -1091,7 +1114,7 @@ namespace Spotlight.GUI
         }
 
         #endregion
-        
+
         private void OpenLevel(string Filename)
         {
             if (TryOpenZoneWithLoadingBar(Filename, out var zone))
@@ -1126,7 +1149,7 @@ namespace Spotlight.GUI
                 });
                 LoadingThread.Start(loadingInfo.StageName);
 
-                if(loadingInfo.StageArcType==StageArcType.NotSpecified)
+                if (loadingInfo.StageArcType == StageArcType.NotSpecified)
                 {
                     if (!SM3DWorldZone.TryOpen(loadingInfo.Directory, loadingInfo.StageName, out zone))
                     {
@@ -1194,6 +1217,7 @@ namespace Spotlight.GUI
             scene.Reverted += Scene_Reverted;
             scene.IsSavedChanged += Scene_IsSavedChanged;
             scene.ObjectPlaced += Scene_ObjectPlaced;
+            scene.LayersChanged += (_, _) => UpdateLayerList();
         }
 
         private void Scene_IsSavedChanged(object sender, EventArgs e)
@@ -1202,8 +1226,8 @@ namespace Spotlight.GUI
             {
                 SM3DWorldScene scene = (SM3DWorldScene)tab.Document;
 
-                tab.Name = ((!string.IsNullOrEmpty(Program.ProjectPath) && scene.MainZone.Directory==Program.BaseStageDataPath) ? "[GamePath]" : string.Empty) +
-                    scene.ToString() + 
+                tab.Name = ((!string.IsNullOrEmpty(Program.ProjectPath) && scene.MainZone.Directory == Program.BaseStageDataPath) ? "[GamePath]" : string.Empty) +
+                    scene.ToString() +
                     (scene.IsSaved ? string.Empty : "*");
             }
 
@@ -1224,7 +1248,7 @@ namespace Spotlight.GUI
 
         private void Scene_ListEntered(object sender, ListEventArgs e)
         {
-            if(e.List is List<RailPoint> points)
+            if (e.List is List<RailPoint> points)
             {
                 if (points.Count > 0)
                 {
@@ -1244,7 +1268,7 @@ namespace Spotlight.GUI
         {
             if (e.Clicks == 2 && e.Item is I3dWorldObject obj)
                 currentScene.FocusOn(obj);
-            else if(e.Item is ZonePlacement placement)
+            else if (e.Item is ZonePlacement placement)
             {
                 if (e.Clicks == 2)
                     LevelGLControlModern.CameraTarget = placement.Position;
@@ -1254,7 +1278,7 @@ namespace Spotlight.GUI
 
                     foreach (var zone in currentScene.GetZones())
                     {
-                        if(placement.Zone == zone)
+                        if (placement.Zone == zone)
                         {
                             ZoneListBox.SelectedIndex = index;
                             break;
@@ -1318,7 +1342,7 @@ namespace Spotlight.GUI
             #region find out which zones will remain after the zones in this scene gets unloaded
             HashSet<SM3DWorldZone> remainingZones = new HashSet<SM3DWorldZone>();
 
-            foreach(var tab in ZoneDocumentTabControl.Tabs)
+            foreach (var tab in ZoneDocumentTabControl.Tabs)
             {
                 if (tab == e.Tab)
                     continue; //wont remain
@@ -1346,12 +1370,12 @@ namespace Spotlight.GUI
             #endregion
 
             #region ask to save unsaved changes
-            if (unsavedZones.Count>0)
+            if (unsavedZones.Count > 0)
             {
                 string UnsavedZones = "";
 
                 foreach (var zone in unsavedZones)
-                    UnsavedZones += zone.StageInfo.StageName+"\n";
+                    UnsavedZones += zone.StageInfo.StageName + "\n";
 
                 switch (MessageBox.Show(string.Format(UnsavedChangesText, UnsavedZones), UnsavedChangesHeader, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning))
                 {
@@ -1400,7 +1424,7 @@ namespace Spotlight.GUI
 
             MainSceneListView.CollapseAllNodes();
 
-            if (currentScene.EditZone.ObjLists.Any(x=>x.Key.StartsWith(SM3DWorldZone.MAP_PREFIX)))
+            if (currentScene.EditZone.ObjLists.Any(x => x.Key.StartsWith(SM3DWorldZone.MAP_PREFIX)))
                 MainSceneListView.ExpandNode(SM3DWorldZone.MAP_PREFIX);
             else if (currentScene.EditZone.ObjLists.Any(x => x.Key.StartsWith(SM3DWorldZone.DESIGN_PREFIX)))
                 MainSceneListView.ExpandNode(SM3DWorldZone.DESIGN_PREFIX);
@@ -1412,6 +1436,8 @@ namespace Spotlight.GUI
 #endif
 
             UpdateLayerList();
+
+            LayerListControl.SetZone(currentScene.EditZone);
 
             MainSceneListView.Refresh();
 
@@ -1427,35 +1453,36 @@ namespace Spotlight.GUI
 
         private void UpdateLayerList()
         {
+            LayerListControl.Refresh();
+
+
+            List<ToolStripItem> items = new List<ToolStripItem>();
+
+            using (Graphics cg = CreateGraphics())
+            {
+                foreach (var layer in currentScene.EditZone.availibleLayers)
+                {
+                    var btn = new ToolStripButton(layer.Name, null, ChangeLayerMenuItem_Click);
+
+                    btn.Width = (int)Math.Ceiling(cg.MeasureString(layer.Name, btn.Font).Width);
+
+                    items.Add(btn);
+                }
+            }
+
+            ChangeLayerToolStripMenuItem.DropDownItems.Clear();
+            ChangeLayerToolStripMenuItem.DropDownItems.AddRange(items.ToArray());
+
 
 
             LayerListView.BeginUpdate();
             LayerListView.Items.Clear();
 
-            LayerListView.ItemCheck -= LayerList_ItemCheck;
-
-            int drawLayerIndex = -1;
-
-            int i = 0;
-
             foreach (var layer in currentScene.EditZone.availibleLayers)
             {
-                if (layer == currentScene.DrawLayer)
-                    drawLayerIndex = i;
-
-                LayerListView.Items.Add(layer).Checked = currentScene.EditZone.enabledLayers.Contains(layer);
-                i++;
+                LayerListView.Items.Add(layer.Name);
             }
             LayerListView.EndUpdate();
-
-            LayerListView.ItemCheck += LayerList_ItemCheck;
-
-
-            if(drawLayerIndex!=-1)
-            {
-                LayerListView.SelectedIndices.Clear();
-                LayerListView.SelectedIndices.Add(drawLayerIndex);
-            }
         }
 
         private void SceneListView3dWorld1_SelectionChanged(object sender, EventArgs e)
@@ -1564,7 +1591,7 @@ namespace Spotlight.GUI
             else return false;
         }
 
-#region Translations
+        #region Translations
         /// <summary>
         /// Sets up the text. if this is not called, I bet there will be some crashes
         /// </summary>
@@ -1573,8 +1600,8 @@ namespace Spotlight.GUI
             Text = Program.CurrentLanguage.GetTranslation("EditorTitle") ?? "Spotlight";
 
 
-#region Controls
-#region Toolstrip Items
+            #region Controls
+            #region Toolstrip Items
             this.Localize(
             FileToolStripMenuItem,
             OpenToolStripMenuItem,
@@ -1608,13 +1635,13 @@ namespace Spotlight.GUI
             AboutToolStripMenuItem,
             SpotlightWikiToolStripMenuItem,
             CheckForUpdatesToolStripMenuItem,
-#endregion
+            #endregion
 
             EditIndividualButton,
             CancelAddObjectButton
             );
             CurrentObjectLabel.Text = NothingSelected;
-#endregion
+            #endregion
         }
 
         [Program.Localized]
@@ -1675,7 +1702,7 @@ Would you like to rebuild the database from your 3DW Files?";
         string StatusObjectPlaceNoticeMessage = "You have to place the object by clicking, when holding shift multiple objects can be placed";
         [Program.Localized]
         string FileLevelOpenFilter = "Level Files (Map)|Level Files (Design)|Level Files (Sound)|All Level Files";
-        
+
         [Program.Localized]
         string DuplicateNothingMessage = "Can't duplicate nothing!";
         [Program.Localized]
@@ -1736,11 +1763,11 @@ Would you like to rebuild the database from your 3DW Files?";
         [Program.Localized]
         string InvalidStageListFormatHeader = "Invalid Format";
 
-#endregion
+        #endregion
 
         private void QuickFavoriteControl_SelectedFavoriteChanged(object sender, EventArgs e)
         {
-            if(currentScene!=null && QuickFavoriteControl.SelectedFavorite!=null)
+            if (currentScene != null && QuickFavoriteControl.SelectedFavorite != null)
             {
                 currentScene.ObjectPlaceDelegate = QuickFavoriteControl.SelectedFavorite.PlacementHandler;
                 SpotlightToolStripStatusLabel.Text = StatusObjectPlaceNoticeMessage;
@@ -1760,6 +1787,7 @@ Would you like to rebuild the database from your 3DW Files?";
 
             LevelGLControlModern_Load(null, null);
         }
+
 
         private void LevelGLControlModern_Load(object sender, EventArgs e)
         {
@@ -1800,9 +1828,43 @@ Would you like to rebuild the database from your 3DW Files?";
             string listName = ((ToolStripButton)sender).Text;
 
             //TODO Localize
-            if(MessageBox.Show("Are you sure you want to move all selected objects to "+listName+"?", "Confirm", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to move all selected objects to " + listName + "?", "Confirm", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 MoveToTargetList(currentScene.EditZone.ObjLists[listName]);
+                //TODO set status text
+            }
+        }
+
+        private void ChangeLayerMenuItem_Click(object sender, EventArgs e)
+        {
+            Layer layer = currentScene.EditZone.GetOrCreateLayer(((ToolStripButton)sender).Text);
+
+            //TODO Localize
+            if (MessageBox.Show("Are you sure you want to change the layer of all selected objects to " + layer + "?", "Confirm", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                List<RevertableMassPropertyChange<I3dWorldObject, Layer>.Info> infos = new();
+
+
+                AdditionManager additionManager = new AdditionManager();
+                DeletionManager deletionManager = new DeletionManager();
+
+
+                foreach (I3dWorldObject obj in currentScene.SelectedObjects.Where(x => x is I3dWorldObject))
+                {
+                    if (obj.Layer == layer)
+                        continue;
+
+                    infos.Add(new RevertableMassPropertyChange<I3dWorldObject, Layer>.Info(obj, obj.Layer));
+                    obj.Layer = layer;
+                }
+
+                currentScene.AddToUndo(new RevertableMassPropertyChange<I3dWorldObject, Layer>(
+                    (ValueGetter<I3dWorldObject, Layer>)
+                        typeof(I3dWorldObject).GetProperty("Layer").GetGetMethod().CreateDelegate(typeof(ValueGetter<I3dWorldObject, Layer>)),
+                    (ValueSetter<I3dWorldObject, Layer>)
+                        typeof(I3dWorldObject).GetProperty("Layer").GetSetMethod().CreateDelegate(typeof(ValueSetter<I3dWorldObject, Layer>)),
+                    infos.ToArray()));
+
                 //TODO set status text
             }
         }
@@ -1872,46 +1934,70 @@ Would you like to rebuild the database from your 3DW Files?";
             LevelGLControlModern.Refresh();
         }
 
-        private void LayerList_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == e.CurrentValue)
-                return; //not sure if that can even happen
-
-            string layer = LayerListView.Items[e.Index].Text;
-
-            if (e.NewValue==CheckState.Checked)
-                currentScene.EditZone.enabledLayers.Add(layer);
-            else if(e.NewValue == CheckState.Unchecked)
-                currentScene.EditZone.enabledLayers.Remove(layer);
-
-            LevelGLControlModern.Refresh();
-        }
-
-        private void LayerListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (currentScene == null || LayerListView.SelectedItems.Count == 0)
-                return;
-
-            currentScene.DrawLayer = LayerListView.SelectedItems[LayerListView.SelectedItems.Count-1].Text;
-
-            SpotlightToolStripStatusLabel.Text = $"Draw Layer changed to: {currentScene.DrawLayer}          NEW PLACED OBJECTS WILL NOW HAVE THIS LAYER!";
-        }
-
-        private void DrawLayerComboBox_TextChanged(object sender, EventArgs e)
-        {
-            if (currentScene == null || LayerListView.SelectedItems.Count == 0)
-                return;
-
-            //TODO
-        }
-
 #if ODYSSEY
         private void ScenarioComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentScene.SetScenario(ScenarioComboBox.SelectedIndex);
+            LayerListControl.SetScenario(ScenarioComboBox.SelectedIndex);
             UpdateLayerList();
             LevelGLControlModern.Refresh();
         }
 #endif
+        private void CompareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //obj3745
+
+            foreach (var file in Directory.GetFiles(@"C:\Users\jupah\Documents\Switch-Hacking\OdysseyHacking\SpotlightTest\ScenarioSavingTest"))
+            {
+                if (!file.Contains("CapWorld"))
+                    continue;
+
+                LevelComparer.Compare(
+                    System.IO.Path.Combine(
+                        @"C:\Users\jupah\Documents\Switch-Hacking\OdysseyHacking\SuperMarioOdyssey\StageData",
+                        System.IO.Path.GetFileName(file)
+                    ),
+
+                    file);
+            }
+        }
+        public void SetTheme(ColorKit color)
+        {
+            this.BackColor = color.BackColor1;
+            this.ForeColor = color.ForeColor1;
+            this.LayersTabPage.ForeColor = color.ForeColor1;
+            this.ZonesTabPage.ForeColor = color.ForeColor1;
+            this.ObjectsTabPage.ForeColor = color.ForeColor1;
+            this.ObjectUIControl.ForeColor = color.ForeColor1;
+            this.ObjectUIControl.BackColor = color.BackColor1;
+            this.ZoneListBox.ForeColor = color.ForeColor1;
+            this.ZoneListBox.BackColor = color.BackColor2;
+            this.LayersTabPage.BorderStyle = BorderStyle.None;
+            this.ZonesTabPage.BorderStyle = BorderStyle.None;
+            this.ObjectsTabPage.BorderStyle = BorderStyle.None;
+            this.LayerListControl.SetTheme(color);
+            this.MainSceneListView.SetTheme(color);
+        }
+        private void MainTabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            foreach (TabPage tabPage in MainTabControl.TabPages)
+            {
+                tabPage.BackColor = BackColor;
+                tabPage.ForeColor = ForeColor;
+            }
+            TabPage page = MainTabControl.TabPages[e.Index];
+            Rectangle rect = e.Bounds;
+            bool selected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Choose colors
+            Color backColor = selected ? BackColor : BackColor;
+            Color foreColor = selected ? ForeColor : ForeColor;
+
+            using (SolidBrush brush = new SolidBrush(backColor))
+                e.Graphics.FillRectangle(brush, rect);
+
+            TextRenderer.DrawText(e.Graphics, page.Text, e.Font, rect, foreColor,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+        }
     }
 }

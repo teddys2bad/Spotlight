@@ -11,6 +11,8 @@ using static BYAML.ByamlIterator;
 using static Spotlight.Level.LevelIO;
 using static Spotlight.ObjectParameterForm;
 using GL_EditorFramework;
+using System.Diagnostics;
+using System.IO;
 
 /* File Format .sopd
  * ----------------------------------------------
@@ -55,6 +57,17 @@ namespace Spotlight.Database
     /// </summary>
     public class ObjectParameterDatabase
     {
+        private static Dictionary<string, string> japaneseListNames = new Dictionary<string, string>()
+        {
+            ["エリア"] = "AreaList",
+            ["チェックポイントフラグ"] = "CheckPointList",
+            ["ゴール"] = "GloalList",
+            ["その他"] = "ObjectList",//others
+            ["プレイヤー"] = "PlayerList",
+            ["デモ"] = "DemoObjectList",
+            ["空"] = "SkyList"
+        };
+
         /// <summary>
         /// The version of this Object Parameter Database
         /// </summary>
@@ -186,13 +199,20 @@ namespace Spotlight.Database
         /// <summary>
         /// Create from Reading the games files
         /// </summary>
-        public void Create(string StageDataPath)
+        public void Create(List<string> paths)
         {
-            string[] Zones = Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.MAP_SUFFIX}");
-            string[] Designs = Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.DESIGN_SUFFIX}");
-            string[] Sounds = Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.SOUND_SUFFIX}");
-
-            string[] Combined = Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.COMBINED_SUFFIX}");
+            List<string> Zones = new List<string>();
+            List<string> Designs = new List<string>();
+            List<string> Sounds = new List<string>();
+            List<string> Combined = new List<string>();
+            foreach (string ProjectPath in paths)
+            {
+                string StageDataPath = ProjectPath + "\\\\StageData";
+                Zones.AddRange(Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.MAP_SUFFIX}"));
+                Designs.AddRange(Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.DESIGN_SUFFIX}"));
+                Sounds.AddRange(Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.SOUND_SUFFIX}"));
+                Combined.AddRange(Directory.GetFiles(StageDataPath, $"*{SM3DWorldZone.COMBINED_SUFFIX}"));
+            }
 
             Dictionary<string, List<ObjectInfo>> MAPinfosByListName = new Dictionary<string, List<ObjectInfo>>()
             {
@@ -242,20 +262,24 @@ namespace Spotlight.Database
                 [nameof(ObjList.ObjectList)] = new List<ObjectInfo>(),
             };
 
-            for (int i = 0; i < Zones.Length; i++)
+            for (int i = 0; i < Zones.Count; i++)
+            {
                 GetObjectInfos(Zones[i], MAPinfosByListName);
-            for (int i = 0; i < Designs.Length; i++)
+            }
+            for (int i = 0; i < Designs.Count; i++)
                 GetObjectInfos(Designs[i], DESIGNinfosByListName);
-            for (int i = 0; i < Sounds.Length; i++)
+            for (int i = 0; i < Sounds.Count; i++)
                 GetObjectInfos(Sounds[i], SOUNDinfosByListName);
 
-            for (int i = 0; i < Combined.Length; i++)
+            for (int i = 0; i < Combined.Count; i++)
             {
                 GetObjectInfosCombined(Combined[i],
                 MAPinfosByListName,
                 DESIGNinfosByListName,
                 SOUNDinfosByListName);
             }
+
+            HashSet<string> objListNames = new HashSet<string>();
 
 
             void GetParameters(Dictionary<string, List<ObjectInfo>> infosByListName, Category category)
@@ -272,12 +296,14 @@ namespace Spotlight.Database
                     {
                         ObjectInfo info = infos[j];
 
+                        objListNames.Add(info.ObjListName);
+
                         if (info.ID.StartsWith("rail"))
                         {
                             CollectRailParameter(ref info);
                         }
 
-                        else if ((info.ClassName=="Area")||info.ObjectName.Contains("Area") && AreaModelNames.Contains(info.ModelName))
+                        else if ((info.ClassName == "Area") || info.ObjectName.Contains("Area") && AreaModelNames.Contains(info.ModelName))
                         {
                             CollectAreaParameter(ref info, category);
                         }
@@ -294,11 +320,33 @@ namespace Spotlight.Database
             GetParameters(MAPinfosByListName, Category.Map);
             GetParameters(DESIGNinfosByListName, Category.Design);
             GetParameters(SOUNDinfosByListName, Category.Sound);
+            foreach (string ProjectPath in paths)
+            {
+                foreach (string file in Directory.GetFiles(ProjectPath + "\\\\ObjectData"))
+                {
+                    string name = Path.GetFileNameWithoutExtension(file);
+                    if (ObjectParameters.ContainsKey(name)) {
+                        continue;
+                    }
+                    Console.WriteLine("missing : " + name);
+                }
+            }
         }
-
         private void CollectObjectParameter(ref ObjectInfo info, ObjList objList, Category category)
         {
             ObjectParam param;
+
+            //if(info.DisplayRotation!=OpenTK.Vector3.Zero)
+            //    Debugger.Break();
+
+            //if (info.DisplayScale != OpenTK.Vector3.One //&& 
+            //    //info.DisplayScale != new OpenTK.Vector3(2) &&
+            //    //info.DisplayScale != new OpenTK.Vector3(10) &&
+            //    //info.DisplayScale != new OpenTK.Vector3(3) &&
+            //    //info.DisplayScale != new OpenTK.Vector3(0.1f) &&
+            //    //info.DisplayScale != new OpenTK.Vector3(1.5f)
+            //    )
+            //    Debugger.Break();
 
             if (ObjectParameters.TryGetValue(info.ClassName, out param))
             {
@@ -465,7 +513,12 @@ namespace Spotlight.Database
         public static void AddToProperties(List<PropertyDef> propertiesFromDB, Dictionary<string, dynamic> propertyDict)
         {
             for (int i = 0; i < propertiesFromDB.Count; i++)
-                propertyDict.Add(propertiesFromDB[i].Name, propertiesFromDB[i].TypeDef.DefaultValue);
+            {
+                if (!propertyDict.ContainsKey(propertiesFromDB[i].Name))
+                {
+                    propertyDict.Add(propertiesFromDB[i].Name, propertiesFromDB[i].TypeDef.DefaultValue);
+                }
+            }
         }
 
         public static void AddToLinks(List<string> linkNames, Dictionary<string, List<I3dWorldObject>> links)
@@ -624,7 +677,7 @@ namespace Spotlight.Database
                 Links.Add(LinkNames[i], new List<I3dWorldObject>());
 
 
-            return new General3dWorldObject(Position, new OpenTK.Vector3(0f), new OpenTK.Vector3(1f), ID, ObjectName, ModelName, ClassName, new OpenTK.Vector3(0f), "None", Links, Params, zone);
+            return new General3dWorldObject(Position, new OpenTK.Vector3(0f), new OpenTK.Vector3(1f), ID, ObjectName, ModelName, ClassName, new OpenTK.Vector3(0f), "None", Links, Params, zone, zone.CommonLayer);
         }
 
         static string[] CategoryPrefixes = new string[]

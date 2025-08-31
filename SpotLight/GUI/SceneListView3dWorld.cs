@@ -233,53 +233,24 @@ namespace Spotlight.GUI
 
             TreeView.Refresh();
         }
+        public void SetTheme(ColorKit color)
+        {
+            this.ForeColor = color.ForeColor1;
+            this.ItemsListView.BackColor = color.BackColor2;
+            this.ItemsListView.ForeColor = color.ForeColor1;
+            this.BackButton.ForeColor = color.ForeColor1;
+            this.FilterTextBox.BackColor = color.BackColor2;
+            this.FilterTextBox.ForeColor = color.ForeColor1;
+            this.TreeView.SetTheme(color);
+        }
     }
 
 
-    public class SceneTreeView3dWorld : FastListViewBase
+    public partial class SceneTreeView3dWorld : FastListViewBase
     {
-        class SuperSet : ISet<object>
-        {
-            #region not implemented
-            public int Count => throw new NotImplementedException();
-            public bool IsReadOnly => throw new NotImplementedException();
-            public void CopyTo(object[] array, int arrayIndex){throw new NotImplementedException();}
-            public void ExceptWith(IEnumerable<object> other){throw new NotImplementedException();}
-            public IEnumerator<object> GetEnumerator(){throw new NotImplementedException();}
-            public void IntersectWith(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool IsProperSubsetOf(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool IsProperSupersetOf(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool IsSubsetOf(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool IsSupersetOf(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool Overlaps(IEnumerable<object> other){throw new NotImplementedException();}
-            public bool SetEquals(IEnumerable<object> other){throw new NotImplementedException();}
-            public void SymmetricExceptWith(IEnumerable<object> other){throw new NotImplementedException();}
-            public void UnionWith(IEnumerable<object> other){throw new NotImplementedException();}
-            void ICollection<object>.Add(object item){throw new NotImplementedException();}
-            IEnumerator IEnumerable.GetEnumerator(){throw new NotImplementedException();}
-            #endregion
+        private Func<I3dWorldObject, bool> isMatch;
 
-            public bool Add(object item)
-            {
-                return true;
-            }
-            public bool Remove(object item)
-            { 
-                return false; 
-            }
-
-            public void Clear()
-            {
-                
-            }
-
-            public bool Contains(object item)
-            {
-                return true;
-            }
-        }
-
-        Regex filter { get; set; } = new Regex(string.Empty);
+        private static Regex searchForSpecificRegex = new Regex("([^ ]+)=(.*)");
 
         string filterString = string.Empty;
         public string FilterString
@@ -288,9 +259,41 @@ namespace Spotlight.GUI
             set
             {
                 filterString = value;
+
+
+                var match = searchForSpecificRegex.Match(filterString);
+
+                if (match.Success)
+                {
+                    string matchValue = match.Groups[2].Value;
+
+                    switch (match.Groups[1].Value)
+                    {
+                        case "Id":
+                        case "id":
+                        case "ID":
+                        case "ObjId":
+                        case "ObjID":
+                            isMatch = obj => obj.ID == matchValue;
+                            break;
+                        case "layer":
+                        case "Layer":
+                        case "layerName":
+                        case "LayerName":
+                        case "LayerConfigName":
+                            isMatch = obj => obj.Layer.Name.StartsWith(matchValue);
+                            break;
+                        default:
+                            break;
+                    }
+                    return;
+                }
+
                 try
                 {
-                    filter = new Regex(value, RegexOptions.IgnoreCase);
+                    var filter = new Regex(value, RegexOptions.IgnoreCase);
+
+                    isMatch = obj => filter.IsMatch(obj.ToString());
                 }
                 catch(Exception) { }
             }
@@ -366,8 +369,6 @@ namespace Spotlight.GUI
 
         }
 
-        static readonly SuperSet superSet = new SuperSet();
-
         protected virtual void OnTree(TreeHandler tree)
         {
             GL_EditorFramework.EditorDrawables.IEditableObject _obj;
@@ -427,7 +428,7 @@ namespace Spotlight.GUI
             var bak = expandedNodes;
 
             if(!string.IsNullOrEmpty(filterString))
-                expandedNodes = superSet;
+                expandedNodes = SuperSet<object>.Instance;
 
             foreach (var (categoryName, prefix) in categories)
             {
@@ -458,7 +459,7 @@ namespace Spotlight.GUI
 
                     foreach (I3dWorldObject obj in list)
                     {
-                        if (!filter.IsMatch(obj.ToString()))
+                        if (!isMatch(obj))
                             continue;
 
                         _obj = obj;
@@ -781,6 +782,15 @@ namespace Spotlight.GUI
             {
                 expandedNodes = bak;
             }
+        }
+        public void SetTheme(ColorKit color)
+        {
+            this.BackColor = color.BackColor2;
+            this.ForeColor = color.ForeColor1;
+            highlightBrushes[0].back = new SolidBrush(color.BackColor2);
+            highlightBrushes[0].font = new SolidBrush(color.ForeColor1);
+            highlightBrushes[2].back = new SolidBrush(color.BackColor2);
+            highlightBrushes[2].font = new SolidBrush(color.ForeColor1);
         }
     }
 }

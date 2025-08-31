@@ -20,6 +20,8 @@ namespace Spotlight.GUI
 
         int hoveredIndex = -1;
 
+        int railsCount = 2;
+
         Graphics g;
 
         public override string Text { get => base.Text; set => base.Text = value; }
@@ -86,6 +88,21 @@ namespace Spotlight.GUI
                     return shapes[selectedIndex];
                 else
                     return null;
+            }
+        }
+        public int RailsCount
+        {
+            get
+            {
+                return railsCount;
+            }
+        }
+
+        public int SelectedRailCount
+        {
+            get
+            {
+                return 0;
             }
         }
 
@@ -331,5 +348,15 @@ namespace Spotlight.GUI
                 }
             }
         }
+        public void RailsCountTextBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                railsCount = int.Parse(((System.Windows.Forms.TextBox)sender).Text);
+            }
+            catch (Exception) {}
+
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Spotlight.GUI
+﻿using System.Drawing;
+
+namespace Spotlight.GUI
 {
     partial class SettingsForm
     {
@@ -54,6 +56,7 @@
             this.SplashTestButton = new System.Windows.Forms.Button();
             this.SplashSizeComboBox = new System.Windows.Forms.ComboBox();
             this.SplashSizeLabel = new System.Windows.Forms.Label();
+            this.DarkModeCheckBox = new System.Windows.Forms.CheckBox();
             this.LanguageComboBox = new System.Windows.Forms.ComboBox();
             this.LanguageLabel = new System.Windows.Forms.Label();
             this.ProjectPathTextBox = new GL_EditorFramework.SuggestingTextBox();
@@ -306,6 +309,7 @@
             this.MiscellaneousGroupBox.Controls.Add(this.SplashTestButton);
             this.MiscellaneousGroupBox.Controls.Add(this.SplashSizeComboBox);
             this.MiscellaneousGroupBox.Controls.Add(this.SplashSizeLabel);
+            this.MiscellaneousGroupBox.Controls.Add(this.DarkModeCheckBox);
             this.MiscellaneousGroupBox.Controls.Add(this.LanguageComboBox);
             this.MiscellaneousGroupBox.Controls.Add(this.LanguageLabel);
             this.MiscellaneousGroupBox.Controls.Add(this.ResetSpotlightButton);
@@ -318,7 +322,7 @@
             // 
             // SplashTestButton
             // 
-            this.SplashTestButton.Location = new System.Drawing.Point(414, 19);
+            this.SplashTestButton.Location = new System.Drawing.Point(354, 19);
             this.SplashTestButton.Name = "SplashTestButton";
             this.SplashTestButton.Size = new System.Drawing.Size(62, 21);
             this.SplashTestButton.TabIndex = 12;
@@ -334,7 +338,7 @@
             "846x462",
             "1280x720",
             "1920x1080"});
-            this.SplashSizeComboBox.Location = new System.Drawing.Point(328, 19);
+            this.SplashSizeComboBox.Location = new System.Drawing.Point(268, 19);
             this.SplashSizeComboBox.Name = "SplashSizeComboBox";
             this.SplashSizeComboBox.Size = new System.Drawing.Size(80, 21);
             this.SplashSizeComboBox.TabIndex = 11;
@@ -343,11 +347,22 @@
             // SplashSizeLabel
             // 
             this.SplashSizeLabel.AutoSize = true;
-            this.SplashSizeLabel.Location = new System.Drawing.Point(239, 22);
+            this.SplashSizeLabel.Location = new System.Drawing.Point(199, 22);
             this.SplashSizeLabel.Name = "SplashSizeLabel";
             this.SplashSizeLabel.Size = new System.Drawing.Size(65, 13);
             this.SplashSizeLabel.TabIndex = 10;
             this.SplashSizeLabel.Text = "Splash Size:";
+            // 
+            // DarkModeCheckBox
+            // 
+            this.DarkModeCheckBox.AutoSize = true;
+            this.DarkModeCheckBox.Location = new System.Drawing.Point(426, 22);
+            this.DarkModeCheckBox.Name = "DarkModeCheckBox";
+            this.DarkModeCheckBox.Size = new System.Drawing.Size(108, 17);
+            this.DarkModeCheckBox.TabIndex = 8;
+            this.DarkModeCheckBox.Text = "Dark Theme";
+            this.DarkModeCheckBox.UseVisualStyleBackColor = true;
+            this.DarkModeCheckBox.CheckedChanged += new System.EventHandler(this.DarkModeCheckBox_CheckedChanged);
             // 
             // LanguageComboBox
             // 
@@ -458,6 +473,7 @@
         private System.Windows.Forms.ComboBox SplashSizeComboBox;
         private System.Windows.Forms.Label SplashSizeLabel;
         private System.Windows.Forms.Button SplashTestButton;
+        private System.Windows.Forms.CheckBox DarkModeCheckBox;
         private System.Windows.Forms.CheckBox RenderTransparentWallsCheckBox;
         private System.Windows.Forms.CheckBox DoNotLoadTexturesCheckBox;
     }

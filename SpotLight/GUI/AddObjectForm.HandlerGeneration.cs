@@ -40,11 +40,24 @@ namespace Spotlight.GUI
 
             RailParam railParam;
             PathPoint[] points;
+            int railsCount;
             bool closeRail;
 
             (I3dWorldObject, ObjectList)[] PlaceRail(Vector3 pos, SM3DWorldZone zone)
             {
-                List<RailPoint> pathPoints = points.Select(p=>new RailPoint(p.Position+pos, p.ControlPoint1, p.ControlPoint2)).ToList();
+                List<RailPoint> pathPoints;
+                if (points.Length == 1)
+                {
+                    PathPoint p = points[0];
+                    pathPoints = new List<RailPoint>();
+                    for (int i = 0; i != railsCount; i++) {
+                        pathPoints.Add(new RailPoint(p.Position + pos + new Vector3(i * 5, 0, 0), p.ControlPoint1, p.ControlPoint2, Vector3.Zero));
+                    }
+                }
+                else
+                {
+                    pathPoints = points.Select(p => new RailPoint(p.Position + pos, p.ControlPoint1, p.ControlPoint2, Vector3.Zero)).ToList();
+                }
 
                 Dictionary<string, List<I3dWorldObject>> links = new Dictionary<string, List<I3dWorldObject>>();
 
@@ -53,7 +66,7 @@ namespace Spotlight.GUI
                 ObjectParameterDatabase.AddToProperties(railParam.Properties, properties);
                 ObjectParameterDatabase.AddToLinks(railParam.LinkNames, links);
 
-                Rail rail = new Rail(pathPoints, zone.NextObjID(), railParam.ClassName, closeRail, false, links, properties, zone);
+                Rail rail = new Rail(pathPoints, zone.NextObjID(), railParam.ClassName, closeRail, false, links, properties, zone, zone.CommonLayer);
 
 
                 if (zone.ObjLists.ContainsKey("Map_Rails"))
@@ -86,7 +99,7 @@ namespace Spotlight.GUI
                 if (links.Count == 0)
                     links = null;
 
-                AreaObject obj = new AreaObject(pos, Vector3.Zero, Vector3.One, zone.NextObjID(), areaShape, areaParam.ClassName, -1, links, properties, zone);
+                AreaObject obj = new AreaObject(pos, Vector3.Zero, Vector3.One, zone.NextObjID(), areaShape, areaParam.ClassName, -1, links, properties, zone, zone.CommonLayer);
 
 
                 if (areaParam.TryGetObjectList(zone, out ObjectList objList))
@@ -123,6 +136,13 @@ namespace Spotlight.GUI
 
             if (ObjectTypeTabControl.SelectedTab == RailsTab && selectedParameter is RailParam _railParam)
             {
+                if (PathShapeSelector.SelectedShape == null || PathShapeSelector.RailsCount <= 1 || PathShapeSelector.RailsCount > 1000)
+                {
+                    return false;
+                }
+
+                railsCount = PathShapeSelector.RailsCount;
+
                 railParam = _railParam;
 
                 closeRail = PathShapeSelector.SelectedShape.Closed;

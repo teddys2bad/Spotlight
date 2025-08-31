@@ -159,7 +159,7 @@ namespace Spotlight.GUI
             });
             DatabaseGenThread.Start();
             Program.ParameterDB = new ObjectParameterDatabase();
-            Program.ParameterDB.Create(Program.BaseStageDataPath);
+            Program.ParameterDB.Create(new List<string> ([Program.GamePath, Program.ProjectPath]));
             Program.ParameterDB.Save(Program.SOPDPath);
             if (DatabaseGenThread.IsAlive)
                 LoadLevelForm.DoClose = true;
@@ -544,6 +544,23 @@ namespace Spotlight.GUI
             Properties.Settings.Default.Save();
         }
 
+        private void DarkModeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox box = (CheckBox) sender;
+            bool isDark = box.Checked;
+            ColorKit Kit = ColorKit.Kit;
+            if (isDark)
+            {
+                Kit.SetDark();
+            }
+            else
+            {
+                Kit.SetLight();
+            }
+            SetTheme(Kit);
+            Home.SetTheme(Kit);
+        }
+
         private void SplashTestButton_Click(object sender, EventArgs e)
         {
             Program.IsProgramReady = false;
@@ -555,6 +572,21 @@ namespace Spotlight.GUI
             });
             Thread.Sleep(9999);
             Program.IsProgramReady = true;
+        }
+        private void SetTheme(ColorKit color)
+        {
+            this.BackColor = color.BackColor1;
+            this.ForeColor = color.ForeColor1;
+            this.ObjectParameterGroupBox.BackColor = color.BackColor1;
+            this.ObjectParameterGroupBox.ForeColor = color.ForeColor1;
+            this.RenderingGroupBox.BackColor = color.BackColor1;
+            this.RenderingGroupBox.ForeColor = color.ForeColor1;
+            this.LoadingAndSavingGroupBox.BackColor = color.BackColor1;
+            this.LoadingAndSavingGroupBox.ForeColor = color.ForeColor1;
+            this.EditingGroupBox.BackColor = color.BackColor1;
+            this.EditingGroupBox.ForeColor = color.ForeColor1;
+            this.MiscellaneousGroupBox.BackColor = color.BackColor1;
+            this.MiscellaneousGroupBox.ForeColor = color.ForeColor1;
         }
     }
 

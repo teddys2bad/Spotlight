@@ -13,7 +13,7 @@ namespace Spotlight
 {
     public partial class LevelSelectForm : Form
     {
-        ListViewItem[][] itemsBySection = new ListViewItem[14][];
+        ListViewItem[][] itemsBySection = new ListViewItem[100][];
 
         private StageList stagelist;
 
@@ -55,6 +55,7 @@ namespace Spotlight
 
         public LevelSelectForm(StageList stagelist, bool showMisc = false)
         {
+
             InitializeComponent();
             CenterToScreen();
 
@@ -63,38 +64,48 @@ namespace Spotlight
             LevelNameColumnHeader.Text = Program.CurrentLanguage.GetTranslation("LevelNameColumnHeader") ?? "Level Name";
 
             this.stagelist = stagelist;
-
-            for (int i = 0; i < SectionComboBox.Items.Count-1; i++)
+            if (!stagelist.IsOdyssey)
             {
-                if (Program.CurrentLanguage.Translations.TryGetValue("WorldName"+(i+1), out string value))
-                    SectionComboBox.Items[i] = value;
-            }
-
-            if (!showMisc)
-            {
-                SectionComboBox.Items.RemoveAt(12); //Misc
-                SectionComboBox.Items.RemoveAt(12); //Bowsers Fury
-            }
-            else
-            {
-                //Misc
-                SectionComboBox.Items[12] = Program.CurrentLanguage.GetTranslation("WorldNameMisc") ?? "Miscellaneous";
-                SectionComboBox.Items[13] = Program.CurrentLanguage.GetTranslation("WorldNameFury") ?? "Bowser's Fury";
-
-                //Bowsers Fury
-                string oceanStagepath = Program.TryGetPathViaProject("StageData", "SingleModeOceanStage.szs");
-                if (File.Exists(oceanStagepath))
+                for (int i = 0; i < SectionComboBox.Items.Count - 1; i++)
                 {
-                    islandInfos = new List<Level.LevelIO.ObjectInfo>();
+                    if (Program.CurrentLanguage.Translations.TryGetValue("WorldName" + (i + 1), out string value))
+                        SectionComboBox.Items[i] = value;
+                }
 
-                    Level.LevelIO.GetObjectInfosCombined(oceanStagepath, new Dictionary<string, List<Level.LevelIO.ObjectInfo>>()
-                    {
-                        ["IslandList"] = islandInfos
-                    }, new Dictionary<string, List<Level.LevelIO.ObjectInfo>>(), new Dictionary<string, List<Level.LevelIO.ObjectInfo>>());
+                if (!showMisc)
+                {
+                    SectionComboBox.Items.RemoveAt(12); //Misc
+                    SectionComboBox.Items.RemoveAt(12); //Bowsers Fury
                 }
                 else
                 {
-                    SectionComboBox.Items.RemoveAt(13); //Bowsers Fury
+                    //Misc
+                    SectionComboBox.Items[12] = Program.CurrentLanguage.GetTranslation("WorldNameMisc") ?? "Miscellaneous";
+                    SectionComboBox.Items[13] = Program.CurrentLanguage.GetTranslation("WorldNameFury") ?? "Bowser's Fury";
+
+                    //Bowsers Fury
+                    string oceanStagepath = Program.TryGetPathViaProject("StageData", "SingleModeOceanStage.szs");
+                    if (File.Exists(oceanStagepath))
+                    {
+                        islandInfos = new List<Level.LevelIO.ObjectInfo>();
+
+                        Level.LevelIO.GetObjectInfosCombined(oceanStagepath, new Dictionary<string, List<Level.LevelIO.ObjectInfo>>()
+                        {
+                            ["IslandList"] = islandInfos
+                        }, new Dictionary<string, List<Level.LevelIO.ObjectInfo>>(), new Dictionary<string, List<Level.LevelIO.ObjectInfo>>());
+                    }
+                    else
+                    {
+                        SectionComboBox.Items.RemoveAt(13); //Bowsers Fury
+                    }
+                }
+            }
+            else
+            {
+                SectionComboBox.Items.Clear();
+                foreach (World world in stagelist.Worlds)
+                {
+                    SectionComboBox.Items.Add(world.Name);
                 }
             }
 
@@ -139,7 +150,7 @@ namespace Spotlight
 
             ListViewItem[] items = itemsBySection[i];
 
-            if (displaysSeasons    ||    i >= 12 /*misc stages, bowsers fury*/ )
+            if (displaysSeasons    ||    (i >= 12 && !stagelist.IsOdyssey) /*misc stages, bowsers fury*/ )
             {
                 if (LevelsListView.Columns.Contains(CourseIDColumnHeader))
                     LevelsListView.Columns.Remove(CourseIDColumnHeader);
@@ -155,7 +166,7 @@ namespace Spotlight
 
             if (items == null)
             {
-                if (i == 12) //misc stages
+                if (i == 12 && !stagelist.IsOdyssey) //misc stages
                 {
                     #region misc stages
                     items = new ListViewItem[]
@@ -170,7 +181,7 @@ namespace Spotlight
                     };
                     #endregion
                 }
-                else if (i == 13) //bowsers fury
+                else if (i == 13 && !stagelist.IsOdyssey) //bowsers fury
                 {
                     #region bowsers fury
                     items = new ListViewItem[islandInfos.Count+3];

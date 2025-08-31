@@ -5,6 +5,7 @@ using OpenTK;
 using Spotlight.EditorDrawables;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -105,7 +106,8 @@ namespace Spotlight.Level
 
                     foreach (ArrayEntry obj in entry.IterArray())
                     {
-                        objectInfos.Add(ParseObjectInfo(obj, objectInfosByReference, infosByListName, entry.Key));
+                        ObjectInfo info = ParseObjectInfo(obj, objectInfosByReference, infosByListName, entry.Key);
+                        objectInfos.Add(info);
                     }
                 }
 #else
@@ -118,7 +120,19 @@ namespace Spotlight.Level
 
                     foreach (ArrayEntry obj in entry.IterArray())
                     {
-                        objectInfos.Add(ParseObjectInfo(obj, objectInfosByReference, infosByListName, entry.Key));
+                        var info = ParseObjectInfo(obj, objectInfosByReference, infosByListName, entry.Key);
+
+                        objectInfos.Add(info);
+
+                        if (
+                            info.LayerName != "Common" &&
+                            info.LayerName != "CommonSub" &&
+                            info.LayerName != "Disaster" &&
+                            !info.LayerName.StartsWith("Scenario") &&
+                            !info.LayerName.StartsWith("NoScenario") &&
+                            !info.LayerName.StartsWith("Phase")
+                            )
+                            Debugger.Break();
                     }
                 }
 #endif
@@ -181,7 +195,7 @@ namespace Spotlight.Level
                         info.ID = entry.Parse();
                         break;
                     case "LayerConfigName":
-                        info.Layer = entry.Parse();
+                        info.LayerName = entry.Parse();
                         break;
                     case "Links":
                         foreach (DictionaryEntry linkEntry in entry.IterDictionary())
@@ -227,8 +241,27 @@ namespace Spotlight.Level
                             _data["DisplayTranslate"]["Y"] / 100f,
                             _data["DisplayTranslate"]["Z"] / 100f
                             );
+                        if (_data.ContainsKey("DisplayRotate"))
+                        {
+                            info.DisplayRotation = new Vector3(
+                                _data["DisplayRotate"]["X"],
+                                _data["DisplayRotate"]["Y"],
+                                _data["DisplayRotate"]["Z"]
+                            );
+                        }
+                        if (_data.ContainsKey("DisplayScale"))
+                        {
+                            info.DisplayScale = new Vector3(
+                            _data["DisplayScale"]["X"],
+                            _data["DisplayScale"]["Y"],
+                            _data["DisplayScale"]["Z"]
+                            );
+                        }
                         info.DisplayName = _data["DisplayName"];
                         info.ClassName = _data["ParameterConfigName"];
+
+                        info.ObjListName = _data["GenerateCategory"];
+                        info.CategoryName = _data["PlacementTargetFile"];
                         break;
                     default:
                         if(!properties.ContainsKey(entry.Key))
@@ -250,7 +283,7 @@ namespace Spotlight.Level
 
             public string Comment { get; set; }
             public string ObjectName { get; set; }
-            public string Layer { get; set; }
+            public string LayerName { get; set; }
             public string ClassName { get; set; }
             public string ModelName { get; set; }
 
@@ -259,7 +292,11 @@ namespace Spotlight.Level
             public Vector3 Scale { get; set; }
 
             public Vector3 DisplayTranslation { get; set; }
+            public Vector3 DisplayRotation { get; set; }
+            public Vector3 DisplayScale { get; set; }
             public string DisplayName { get; set; }
+            public dynamic ObjListName { get; internal set; }
+            public dynamic CategoryName { get; internal set; }
         }
 
         /// <summary>
