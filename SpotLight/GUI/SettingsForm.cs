@@ -14,6 +14,8 @@ using System.Windows.Forms;
 using GL_EditorFramework;
 using System.Threading.Tasks;
 using Spotlight.ObjectRenderers;
+using System.Reflection;
+
 
 namespace Spotlight.GUI
 {
@@ -23,6 +25,11 @@ namespace Spotlight.GUI
         {
             Home = home;
             InitializeComponent();
+            IDEditingCheckBox.Checked = true;      // keep UI consistent
+            IDEditingCheckBox.Visible = false;     // hide it from the form
+            IDEditingCheckBox.Enabled = false;     // belt-and-suspenders
+            EditingGroupBox.Visible = false;
+            EditingGroupBox.Enabled = false;
             CenterToParent();
             Localize();
 
@@ -95,18 +102,6 @@ namespace Spotlight.GUI
                     break;
                 case "Mario":
                     PlayerComboBox.SelectedIndex = 1;
-                    break;
-                case "Luigi":
-                    PlayerComboBox.SelectedIndex = 2;
-                    break;
-                case "Peach":
-                    PlayerComboBox.SelectedIndex = 3;
-                    break;
-                case "Toad":
-                    PlayerComboBox.SelectedIndex = 4;
-                    break;
-                case "Rosalina":
-                    PlayerComboBox.SelectedIndex = 5;
                     break;
             }
 
@@ -211,19 +206,7 @@ namespace Spotlight.GUI
                     break;
                 case 1:
                     Properties.Settings.Default.PlayerChoice = "Mario";
-                    break;
-                case 2:
-                    Properties.Settings.Default.PlayerChoice = "Luigi";
-                    break;
-                case 3:
-                    Properties.Settings.Default.PlayerChoice = "Peach";
-                    break;
-                case 4:
-                    Properties.Settings.Default.PlayerChoice = "Toad";
-                    break;
-                case 5:
-                    Properties.Settings.Default.PlayerChoice = "Rosalina";
-                    break;
+                    break;             
             }
             Properties.Settings.Default.Save();
             if (BfresModelRenderer.Contains("CheckpointFlag"))
@@ -261,7 +244,7 @@ namespace Spotlight.GUI
 
         private void IDEditingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.AllowIDEdits = IDEditingCheckBox.Checked;
+            Properties.Settings.Default.AllowIDEdits = true;
             Properties.Settings.Default.Save();
         }
 
@@ -429,10 +412,6 @@ namespace Spotlight.GUI
             PlayerComboBox.Items.Clear();
             PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerNone") ?? "None");
             PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerMario") ?? "Mario");
-            PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerLuigi") ?? "Luigi");
-            PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerPeach") ?? "Peach");
-            PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerToad") ?? "Toad");
-            PlayerComboBox.Items.Add(Program.CurrentLanguage.GetTranslation("PlayerRosalina") ?? "Rosalina");
             PlayerComboBox.SelectedIndex = tempplayerid;
             Loading = false;
 
@@ -480,18 +459,6 @@ namespace Spotlight.GUI
                 case 1:
                     Properties.Settings.Default.PlayerChoice = "Mario";
                     break;
-                case 2:
-                    Properties.Settings.Default.PlayerChoice = "Luigi";
-                    break;
-                case 3:
-                    Properties.Settings.Default.PlayerChoice = "Peach";
-                    break;
-                case 4:
-                    Properties.Settings.Default.PlayerChoice = "Toad";
-                    break;
-                case 5:
-                    Properties.Settings.Default.PlayerChoice = "Rosalina";
-                    break;
             }
         }
 
@@ -508,7 +475,7 @@ namespace Spotlight.GUI
         [Program.Localized]
         string DatabaseOutdated = "Outdated";
         [Program.Localized]
-        string DatabasePickerTitle = "Select the Game Directory of Super Mario 3D World";
+        string DatabasePickerTitle = "Select the Game Directory of Super Mario Odyssey";
         [Program.Localized]
         string InvalidFolder = "The Directory doesn't contain ObjectData and StageData.";
         [Program.Localized]

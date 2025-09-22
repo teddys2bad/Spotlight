@@ -278,9 +278,9 @@ namespace Spotlight.GUI
             // EditingGroupBox
             // 
             this.EditingGroupBox.Controls.Add(this.IDEditingCheckBox);
-            this.EditingGroupBox.Location = new System.Drawing.Point(12, 298);
+            this.EditingGroupBox.Location = new System.Drawing.Point(558, 247);
             this.EditingGroupBox.Name = "EditingGroupBox";
-            this.EditingGroupBox.Size = new System.Drawing.Size(598, 52);
+            this.EditingGroupBox.Size = new System.Drawing.Size(52, 37);
             this.EditingGroupBox.TabIndex = 9;
             this.EditingGroupBox.TabStop = false;
             this.EditingGroupBox.Text = "Editing";
@@ -313,7 +313,7 @@ namespace Spotlight.GUI
             this.MiscellaneousGroupBox.Controls.Add(this.LanguageComboBox);
             this.MiscellaneousGroupBox.Controls.Add(this.LanguageLabel);
             this.MiscellaneousGroupBox.Controls.Add(this.ResetSpotlightButton);
-            this.MiscellaneousGroupBox.Location = new System.Drawing.Point(12, 356);
+            this.MiscellaneousGroupBox.Location = new System.Drawing.Point(12, 301);
             this.MiscellaneousGroupBox.Name = "MiscellaneousGroupBox";
             this.MiscellaneousGroupBox.Size = new System.Drawing.Size(598, 51);
             this.MiscellaneousGroupBox.TabIndex = 13;
@@ -358,7 +358,7 @@ namespace Spotlight.GUI
             this.DarkModeCheckBox.AutoSize = true;
             this.DarkModeCheckBox.Location = new System.Drawing.Point(426, 22);
             this.DarkModeCheckBox.Name = "DarkModeCheckBox";
-            this.DarkModeCheckBox.Size = new System.Drawing.Size(108, 17);
+            this.DarkModeCheckBox.Size = new System.Drawing.Size(85, 17);
             this.DarkModeCheckBox.TabIndex = 8;
             this.DarkModeCheckBox.Text = "Dark Theme";
             this.DarkModeCheckBox.UseVisualStyleBackColor = true;
@@ -411,7 +411,7 @@ namespace Spotlight.GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 421);
+            this.ClientSize = new System.Drawing.Size(622, 367);
             this.Controls.Add(this.ProjectPathTextBox);
             this.Controls.Add(this.GamePathTextBox);
             this.Controls.Add(this.MiscellaneousGroupBox);

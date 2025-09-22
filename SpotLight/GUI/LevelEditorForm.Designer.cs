@@ -67,7 +67,6 @@
             this.MoveToAppropriateListsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToSpecificListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateViewGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LevelParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SelectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +80,7 @@
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpotlightWikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LevelParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpotlightStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -108,8 +108,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -119,9 +118,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.ZoneDocumentTabControl);
-            this.splitContainer1.Size = new System.Drawing.Size(1045, 639);
-            this.splitContainer1.SplitterDistance = 346;
-            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.Size = new System.Drawing.Size(784, 515);
+            this.splitContainer1.SplitterDistance = 259;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer2
@@ -129,7 +127,6 @@
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -141,12 +138,11 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.ObjectUIControl);
             this.splitContainer2.Panel2.Controls.Add(this.CurrentObjectLabel);
-            this.splitContainer2.Panel2.Margin = new System.Windows.Forms.Padding(4);
-            this.splitContainer2.Panel2.Padding = new System.Windows.Forms.Padding(4);
+            this.splitContainer2.Panel2.Margin = new System.Windows.Forms.Padding(3);
+            this.splitContainer2.Panel2.Padding = new System.Windows.Forms.Padding(3);
             this.splitContainer2.Panel2.Click += new System.EventHandler(this.SplitContainer2_Panel2_Click);
-            this.splitContainer2.Size = new System.Drawing.Size(346, 639);
-            this.splitContainer2.SplitterDistance = 300;
-            this.splitContainer2.SplitterWidth = 5;
+            this.splitContainer2.Size = new System.Drawing.Size(259, 515);
+            this.splitContainer2.SplitterDistance = 241;
             this.splitContainer2.TabIndex = 1;
             // 
             // MainTabControl
@@ -157,10 +153,9 @@
             this.MainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainTabControl.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainTabControl.Location = new System.Drawing.Point(0, 0);
-            this.MainTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(346, 300);
+            this.MainTabControl.Size = new System.Drawing.Size(259, 241);
             this.MainTabControl.TabIndex = 1;
             // 
             // LayersTabPage
@@ -168,11 +163,10 @@
             this.LayersTabPage.Controls.Add(this.LayerListControl);
             this.LayersTabPage.Controls.Add(this.LayerListView);
             this.LayersTabPage.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LayersTabPage.Location = new System.Drawing.Point(4, 26);
-            this.LayersTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.LayersTabPage.Location = new System.Drawing.Point(4, 21);
             this.LayersTabPage.Name = "LayersTabPage";
-            this.LayersTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.LayersTabPage.Size = new System.Drawing.Size(338, 270);
+            this.LayersTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.LayersTabPage.Size = new System.Drawing.Size(251, 216);
             this.LayersTabPage.TabIndex = 1;
             this.LayersTabPage.Text = "Layers";
             this.LayersTabPage.UseVisualStyleBackColor = true;
@@ -183,10 +177,9 @@
             this.LayerListControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LayerListControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LayerListControl.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LayerListControl.Location = new System.Drawing.Point(4, 4);
-            this.LayerListControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LayerListControl.Location = new System.Drawing.Point(3, 3);
             this.LayerListControl.Name = "LayerListControl";
-            this.LayerListControl.Size = new System.Drawing.Size(330, 262);
+            this.LayerListControl.Size = new System.Drawing.Size(245, 210);
             this.LayerListControl.TabIndex = 2;
             // 
             // LayerListView
@@ -196,10 +189,9 @@
             this.LayerListView.Enabled = false;
             this.LayerListView.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LayerListView.HideSelection = false;
-            this.LayerListView.Location = new System.Drawing.Point(4, 4);
-            this.LayerListView.Margin = new System.Windows.Forms.Padding(4);
+            this.LayerListView.Location = new System.Drawing.Point(3, 3);
             this.LayerListView.Name = "LayerListView";
-            this.LayerListView.Size = new System.Drawing.Size(330, 262);
+            this.LayerListView.Size = new System.Drawing.Size(245, 210);
             this.LayerListView.TabIndex = 1;
             this.LayerListView.UseCompatibleStateImageBehavior = false;
             this.LayerListView.View = System.Windows.Forms.View.List;
@@ -209,11 +201,10 @@
             this.ZonesTabPage.Controls.Add(this.ZoneListBox);
             this.ZonesTabPage.Controls.Add(this.EditIndividualButton);
             this.ZonesTabPage.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ZonesTabPage.Location = new System.Drawing.Point(4, 26);
-            this.ZonesTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.ZonesTabPage.Location = new System.Drawing.Point(4, 21);
             this.ZonesTabPage.Name = "ZonesTabPage";
-            this.ZonesTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.ZonesTabPage.Size = new System.Drawing.Size(338, 270);
+            this.ZonesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ZonesTabPage.Size = new System.Drawing.Size(251, 216);
             this.ZonesTabPage.TabIndex = 0;
             this.ZonesTabPage.Text = "Zones";
             this.ZonesTabPage.UseVisualStyleBackColor = true;
@@ -223,11 +214,10 @@
             this.ZoneListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ZoneListBox.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ZoneListBox.FormattingEnabled = true;
-            this.ZoneListBox.ItemHeight = 17;
-            this.ZoneListBox.Location = new System.Drawing.Point(4, 4);
-            this.ZoneListBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ZoneListBox.ItemHeight = 12;
+            this.ZoneListBox.Location = new System.Drawing.Point(3, 3);
             this.ZoneListBox.Name = "ZoneListBox";
-            this.ZoneListBox.Size = new System.Drawing.Size(330, 234);
+            this.ZoneListBox.Size = new System.Drawing.Size(245, 187);
             this.ZoneListBox.TabIndex = 3;
             this.ZoneListBox.SelectedIndexChanged += new System.EventHandler(this.ZoneListBox_SelectedIndexChanged);
             // 
@@ -236,10 +226,9 @@
             this.EditIndividualButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.EditIndividualButton.Enabled = false;
             this.EditIndividualButton.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EditIndividualButton.Location = new System.Drawing.Point(4, 238);
-            this.EditIndividualButton.Margin = new System.Windows.Forms.Padding(4);
+            this.EditIndividualButton.Location = new System.Drawing.Point(3, 190);
             this.EditIndividualButton.Name = "EditIndividualButton";
-            this.EditIndividualButton.Size = new System.Drawing.Size(330, 28);
+            this.EditIndividualButton.Size = new System.Drawing.Size(245, 23);
             this.EditIndividualButton.TabIndex = 1;
             this.EditIndividualButton.Text = "Edit Individual";
             this.EditIndividualButton.UseVisualStyleBackColor = true;
@@ -249,11 +238,10 @@
             // 
             this.ObjectsTabPage.Controls.Add(this.MainSceneListView);
             this.ObjectsTabPage.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ObjectsTabPage.Location = new System.Drawing.Point(4, 26);
-            this.ObjectsTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.ObjectsTabPage.Location = new System.Drawing.Point(4, 21);
             this.ObjectsTabPage.Name = "ObjectsTabPage";
-            this.ObjectsTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.ObjectsTabPage.Size = new System.Drawing.Size(338, 270);
+            this.ObjectsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ObjectsTabPage.Size = new System.Drawing.Size(251, 216);
             this.ObjectsTabPage.TabIndex = 1;
             this.ObjectsTabPage.Text = "Objects";
             this.ObjectsTabPage.UseVisualStyleBackColor = true;
@@ -263,11 +251,10 @@
             this.MainSceneListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainSceneListView.Enabled = false;
             this.MainSceneListView.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainSceneListView.Location = new System.Drawing.Point(4, 4);
-            this.MainSceneListView.Margin = new System.Windows.Forms.Padding(4);
+            this.MainSceneListView.Location = new System.Drawing.Point(3, 3);
             this.MainSceneListView.Name = "MainSceneListView";
             this.MainSceneListView.Scene = null;
-            this.MainSceneListView.Size = new System.Drawing.Size(330, 262);
+            this.MainSceneListView.Size = new System.Drawing.Size(245, 210);
             this.MainSceneListView.TabIndex = 1;
             this.MainSceneListView.ItemClicked += new GL_EditorFramework.ItemClickedEventHandler(this.MainSceneListView_ItemClicked);
             // 
@@ -276,11 +263,11 @@
             this.ObjectUIControl.BackColor = System.Drawing.SystemColors.Control;
             this.ObjectUIControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ObjectUIControl.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ObjectUIControl.Location = new System.Drawing.Point(4, 21);
-            this.ObjectUIControl.Margin = new System.Windows.Forms.Padding(5);
-            this.ObjectUIControl.MinimumSize = new System.Drawing.Size(267, 246);
+            this.ObjectUIControl.Location = new System.Drawing.Point(3, 16);
+            this.ObjectUIControl.Margin = new System.Windows.Forms.Padding(4);
+            this.ObjectUIControl.MinimumSize = new System.Drawing.Size(200, 200);
             this.ObjectUIControl.Name = "ObjectUIControl";
-            this.ObjectUIControl.Size = new System.Drawing.Size(338, 309);
+            this.ObjectUIControl.Size = new System.Drawing.Size(253, 251);
             this.ObjectUIControl.TabIndex = 1;
             // 
             // CurrentObjectLabel
@@ -288,10 +275,9 @@
             this.CurrentObjectLabel.AutoSize = true;
             this.CurrentObjectLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CurrentObjectLabel.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrentObjectLabel.Location = new System.Drawing.Point(4, 4);
-            this.CurrentObjectLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.CurrentObjectLabel.Location = new System.Drawing.Point(3, 3);
             this.CurrentObjectLabel.Name = "CurrentObjectLabel";
-            this.CurrentObjectLabel.Size = new System.Drawing.Size(107, 17);
+            this.CurrentObjectLabel.Size = new System.Drawing.Size(95, 13);
             this.CurrentObjectLabel.TabIndex = 0;
             this.CurrentObjectLabel.Text = "Nothing selected";
             // 
@@ -302,10 +288,9 @@
             this.ZoneDocumentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ZoneDocumentTabControl.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ZoneDocumentTabControl.Location = new System.Drawing.Point(0, 0);
-            this.ZoneDocumentTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.ZoneDocumentTabControl.Name = "ZoneDocumentTabControl";
-            this.ZoneDocumentTabControl.Padding = new System.Windows.Forms.Padding(2, 23, 2, 2);
-            this.ZoneDocumentTabControl.Size = new System.Drawing.Size(694, 639);
+            this.ZoneDocumentTabControl.Padding = new System.Windows.Forms.Padding(2, 19, 2, 2);
+            this.ZoneDocumentTabControl.Size = new System.Drawing.Size(521, 515);
             this.ZoneDocumentTabControl.TabIndex = 1;
             this.ZoneDocumentTabControl.SelectedTabChanged += new System.EventHandler(this.ZoneDocumentTabControl_SelectedTabChanged);
             this.ZoneDocumentTabControl.TabClosing += new GL_EditorFramework.DocumentTabClosingEventHandler(this.ZoneDocumentTabControl_TabClosing);
@@ -314,11 +299,11 @@
             // 
             this.QuickFavoriteControl.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.QuickFavoriteControl.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuickFavoriteControl.Location = new System.Drawing.Point(2, 556);
-            this.QuickFavoriteControl.Margin = new System.Windows.Forms.Padding(4);
+            this.QuickFavoriteControl.Location = new System.Drawing.Point(2, 503);
             this.QuickFavoriteControl.Name = "QuickFavoriteControl";
-            this.QuickFavoriteControl.Size = new System.Drawing.Size(690, 81);
+            this.QuickFavoriteControl.Size = new System.Drawing.Size(517, 10);
             this.QuickFavoriteControl.TabIndex = 1;
+            this.QuickFavoriteControl.Visible = false;
             this.QuickFavoriteControl.SelectedFavoriteChanged += new System.EventHandler(this.QuickFavoriteControl_SelectedFavoriteChanged);
             // 
             // LevelGLControlModern
@@ -333,12 +318,12 @@
             this.LevelGLControlModern.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LevelGLControlModern.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LevelGLControlModern.Fov = 0.7853982F;
-            this.LevelGLControlModern.Location = new System.Drawing.Point(2, 23);
-            this.LevelGLControlModern.Margin = new System.Windows.Forms.Padding(4, 49, 4, 4);
+            this.LevelGLControlModern.Location = new System.Drawing.Point(2, 19);
+            this.LevelGLControlModern.Margin = new System.Windows.Forms.Padding(3, 40, 3, 3);
             this.LevelGLControlModern.Name = "LevelGLControlModern";
             this.LevelGLControlModern.NormPickingDepth = 0F;
             this.LevelGLControlModern.ShowOrientationCube = true;
-            this.LevelGLControlModern.Size = new System.Drawing.Size(690, 614);
+            this.LevelGLControlModern.Size = new System.Drawing.Size(517, 494);
             this.LevelGLControlModern.Stereoscopy = GL_EditorFramework.GL_Core.GL_ControlBase.StereoscopyType.DISABLED;
             this.LevelGLControlModern.TabIndex = 0;
             this.LevelGLControlModern.VSync = false;
@@ -360,7 +345,8 @@
             this.AboutToolStripMenuItem});
             this.SpotlightMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.SpotlightMenuStrip.Name = "SpotlightMenuStrip";
-            this.SpotlightMenuStrip.Size = new System.Drawing.Size(1045, 28);
+            this.SpotlightMenuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.SpotlightMenuStrip.Size = new System.Drawing.Size(784, 24);
             this.SpotlightMenuStrip.TabIndex = 3;
             this.SpotlightMenuStrip.Text = "menuStrip1";
             // 
@@ -375,7 +361,7 @@
             this.restartToolStripMenuItem});
             this.FileToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(41, 24);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.FileToolStripMenuItem.Text = "File";
             // 
             // OpenToolStripMenuItem
@@ -383,7 +369,7 @@
             this.OpenToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
             this.OpenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.OpenToolStripMenuItem.Text = "Open";
             this.OpenToolStripMenuItem.ToolTipText = "Open a Level file";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
@@ -393,7 +379,7 @@
             this.OpenExToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OpenExToolStripMenuItem.Name = "OpenExToolStripMenuItem";
             this.OpenExToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.OpenExToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.OpenExToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.OpenExToolStripMenuItem.Text = "Open With Selector";
             this.OpenExToolStripMenuItem.Click += new System.EventHandler(this.OpenExToolStripMenuItem_Click);
             // 
@@ -403,7 +389,7 @@
             this.SaveToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
             this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -414,7 +400,7 @@
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
             this.SaveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.SaveAsToolStripMenuItem.Text = "Save As";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
@@ -424,7 +410,7 @@
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
             this.OptionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.OptionsToolStripMenuItem.Text = "Options";
             this.OptionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
@@ -432,7 +418,7 @@
             // 
             this.restartToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            this.restartToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.restartToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.restartToolStripMenuItem.Text = "Restart";
             this.restartToolStripMenuItem.Click += new System.EventHandler(this.RestartToolStripMenuItem_Click);
             // 
@@ -452,7 +438,7 @@
             this.ChangeLayerToolStripMenuItem});
             this.EditToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.EditToolStripMenuItem.Text = "Edit";
             // 
             // UndoToolStripMenuItem
@@ -461,7 +447,7 @@
             this.UndoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
             this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.UndoToolStripMenuItem.Text = "Undo";
             this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
@@ -471,7 +457,7 @@
             this.RedoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
             this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.RedoToolStripMenuItem.Text = "Redo";
             this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
@@ -479,7 +465,7 @@
             // 
             this.AddObjectToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddObjectToolStripMenuItem.Name = "AddObjectToolStripMenuItem";
-            this.AddObjectToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.AddObjectToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.AddObjectToolStripMenuItem.Text = "Add Object";
             this.AddObjectToolStripMenuItem.Click += new System.EventHandler(this.AddObjectToolStripMenuItem_Click);
             // 
@@ -489,7 +475,7 @@
             this.AddZoneToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddZoneToolStripMenuItem.Name = "AddZoneToolStripMenuItem";
             this.AddZoneToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.AddZoneToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.AddZoneToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.AddZoneToolStripMenuItem.Text = "Add Zone";
             this.AddZoneToolStripMenuItem.Click += new System.EventHandler(this.AddZoneToolStripMenuItem_Click);
             // 
@@ -499,7 +485,7 @@
             this.CopyToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem";
             this.CopyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.CopyToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.CopyToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.CopyToolStripMenuItem.Text = "Copy";
             this.CopyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
@@ -509,7 +495,7 @@
             this.PasteToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem";
             this.PasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.PasteToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.PasteToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.PasteToolStripMenuItem.Text = "Paste";
             this.PasteToolStripMenuItem.Click += new System.EventHandler(this.PasteToolStripMenuItem_Click);
             // 
@@ -519,7 +505,7 @@
             this.DuplicateToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DuplicateToolStripMenuItem.Name = "DuplicateToolStripMenuItem";
             this.DuplicateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.DuplicateToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.DuplicateToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.DuplicateToolStripMenuItem.Text = "Duplicate";
             this.DuplicateToolStripMenuItem.Click += new System.EventHandler(this.DuplicateToolStripMenuItem_Click);
             // 
@@ -528,7 +514,7 @@
             this.DeleteToolStripMenuItem.Enabled = false;
             this.DeleteToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.DeleteToolStripMenuItem.Text = "Delete";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
@@ -542,14 +528,14 @@
             this.MoveSelectionToToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MoveSelectionToToolStripMenuItem.Name = "MoveSelectionToToolStripMenuItem";
             this.MoveSelectionToToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.MoveSelectionToToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.MoveSelectionToToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.MoveSelectionToToolStripMenuItem.Text = "Move Selection To";
             // 
             // MoveToLinkedToolStripMenuItem
             // 
             this.MoveToLinkedToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MoveToLinkedToolStripMenuItem.Name = "MoveToLinkedToolStripMenuItem";
-            this.MoveToLinkedToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.MoveToLinkedToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.MoveToLinkedToolStripMenuItem.Text = "Linked Objects";
             this.MoveToLinkedToolStripMenuItem.Click += new System.EventHandler(this.MoveToLinkedToolStripMenuItem_Click);
             // 
@@ -557,7 +543,7 @@
             // 
             this.MoveToAppropriateListsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MoveToAppropriateListsToolStripMenuItem.Name = "MoveToAppropriateListsToolStripMenuItem";
-            this.MoveToAppropriateListsToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.MoveToAppropriateListsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.MoveToAppropriateListsToolStripMenuItem.Text = "Appropriate Lists";
             this.MoveToAppropriateListsToolStripMenuItem.Click += new System.EventHandler(this.MoveToAppropriateListsToolStripMenuItem_Click);
             // 
@@ -565,29 +551,21 @@
             // 
             this.MoveToSpecificListToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MoveToSpecificListToolStripMenuItem.Name = "MoveToSpecificListToolStripMenuItem";
-            this.MoveToSpecificListToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.MoveToSpecificListToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.MoveToSpecificListToolStripMenuItem.Text = "Specific List";
             // 
             // CreateViewGroupToolStripMenuItem
             // 
             this.CreateViewGroupToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CreateViewGroupToolStripMenuItem.Name = "CreateViewGroupToolStripMenuItem";
-            this.CreateViewGroupToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.CreateViewGroupToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.CreateViewGroupToolStripMenuItem.Text = "Create View Group";
             this.CreateViewGroupToolStripMenuItem.Click += new System.EventHandler(this.CreateViewGroupToolStripMenuItem_Click);
-            // 
-            // LevelParametersToolStripMenuItem
-            // 
-            this.LevelParametersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LevelParametersToolStripMenuItem.Name = "LevelParametersToolStripMenuItem";
-            this.LevelParametersToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
-            this.LevelParametersToolStripMenuItem.Text = "Level Parameters";
-            this.LevelParametersToolStripMenuItem.Click += new System.EventHandler(this.LevelParametersToolStripMenuItem_Click);
             // 
             // ChangeLayerToolStripMenuItem
             // 
             this.ChangeLayerToolStripMenuItem.Name = "ChangeLayerToolStripMenuItem";
-            this.ChangeLayerToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.ChangeLayerToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.ChangeLayerToolStripMenuItem.Text = "Change Layer";
             // 
             // SelectionToolStripMenuItem
@@ -601,14 +579,14 @@
             this.SelectionToolStripMenuItem.Enabled = false;
             this.SelectionToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SelectionToolStripMenuItem.Name = "SelectionToolStripMenuItem";
-            this.SelectionToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.SelectionToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.SelectionToolStripMenuItem.Text = "Selection";
             // 
             // SelectAllToolStripMenuItem
             // 
             this.SelectAllToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem";
-            this.SelectAllToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
+            this.SelectAllToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.SelectAllToolStripMenuItem.Text = "Select All";
             this.SelectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
@@ -616,7 +594,7 @@
             // 
             this.DeselectAllToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeselectAllToolStripMenuItem.Name = "DeselectAllToolStripMenuItem";
-            this.DeselectAllToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
+            this.DeselectAllToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.DeselectAllToolStripMenuItem.Text = "Deselect All";
             this.DeselectAllToolStripMenuItem.Click += new System.EventHandler(this.DeselectAllToolStripMenuItem_Click);
             // 
@@ -626,7 +604,7 @@
             this.GrowSelectionToolStripMenuItem.Name = "GrowSelectionToolStripMenuItem";
             this.GrowSelectionToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.GrowSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
-            this.GrowSelectionToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
+            this.GrowSelectionToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.GrowSelectionToolStripMenuItem.Text = "Select All Linked";
             this.GrowSelectionToolStripMenuItem.Click += new System.EventHandler(this.GrowSelectionToolStripMenuItem_Click);
             // 
@@ -636,7 +614,7 @@
             this.SelectAllLinkedToolStripMenuItem.Name = "SelectAllLinkedToolStripMenuItem";
             this.SelectAllLinkedToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.SelectAllLinkedToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.SelectAllLinkedToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
+            this.SelectAllLinkedToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.SelectAllLinkedToolStripMenuItem.Text = "Select Selection Cluster";
             this.SelectAllLinkedToolStripMenuItem.Click += new System.EventHandler(this.SelectAllLinkedToolStripMenuItem_Click);
             // 
@@ -645,7 +623,7 @@
             this.invertSelectionToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invertSelectionToolStripMenuItem.Name = "invertSelectionToolStripMenuItem";
             this.invertSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
+            this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.invertSelectionToolStripMenuItem.Text = "Invert Selection";
             this.invertSelectionToolStripMenuItem.Click += new System.EventHandler(this.InvertSelectionToolStripMenuItem_Click);
             // 
@@ -657,7 +635,7 @@
             this.ModeToolStripMenuItem.Enabled = false;
             this.ModeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModeToolStripMenuItem.Name = "ModeToolStripMenuItem";
-            this.ModeToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
+            this.ModeToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.ModeToolStripMenuItem.Text = "Mode";
             // 
             // EditObjectsToolStripMenuItem
@@ -666,7 +644,7 @@
             this.EditObjectsToolStripMenuItem.Name = "EditObjectsToolStripMenuItem";
             this.EditObjectsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
-            this.EditObjectsToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.EditObjectsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.EditObjectsToolStripMenuItem.Text = "Edit Objects";
             this.EditObjectsToolStripMenuItem.Click += new System.EventHandler(this.EditObjectsToolStripMenuItem_Click);
             // 
@@ -676,7 +654,7 @@
             this.EditLinksToolStripMenuItem.Name = "EditLinksToolStripMenuItem";
             this.EditLinksToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.L)));
-            this.EditLinksToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.EditLinksToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.EditLinksToolStripMenuItem.Text = "Edit Links";
             this.EditLinksToolStripMenuItem.Click += new System.EventHandler(this.EditLinksToolStripMenuItem_Click);
             // 
@@ -687,14 +665,15 @@
             this.CheckForUpdatesToolStripMenuItem});
             this.AboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.AboutToolStripMenuItem.Text = "About";
+            this.AboutToolStripMenuItem.Visible = false;
             // 
             // SpotlightWikiToolStripMenuItem
             // 
             this.SpotlightWikiToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SpotlightWikiToolStripMenuItem.Name = "SpotlightWikiToolStripMenuItem";
-            this.SpotlightWikiToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.SpotlightWikiToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.SpotlightWikiToolStripMenuItem.Text = "Spotlight Wiki";
             this.SpotlightWikiToolStripMenuItem.Click += new System.EventHandler(this.SpotlightWikiToolStripMenuItem_Click);
             // 
@@ -702,9 +681,17 @@
             // 
             this.CheckForUpdatesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CheckForUpdatesToolStripMenuItem.Name = "CheckForUpdatesToolStripMenuItem";
-            this.CheckForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.CheckForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.CheckForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.CheckForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
+            // 
+            // LevelParametersToolStripMenuItem
+            // 
+            this.LevelParametersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LevelParametersToolStripMenuItem.Name = "LevelParametersToolStripMenuItem";
+            this.LevelParametersToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.LevelParametersToolStripMenuItem.Text = "Level Parameters";
+            this.LevelParametersToolStripMenuItem.Click += new System.EventHandler(this.LevelParametersToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -717,7 +704,7 @@
             // compareToolStripMenuItem
             // 
             this.compareToolStripMenuItem.Name = "compareToolStripMenuItem";
-            this.compareToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.compareToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.compareToolStripMenuItem.Text = "Compare";
             this.compareToolStripMenuItem.Click += new System.EventHandler(this.CompareToolStripMenuItem_Click);
             // 
@@ -727,17 +714,16 @@
             this.SpotlightStatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.SpotlightStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SpotlightToolStripStatusLabel});
-            this.SpotlightStatusStrip.Location = new System.Drawing.Point(0, 667);
+            this.SpotlightStatusStrip.Location = new System.Drawing.Point(0, 539);
             this.SpotlightStatusStrip.Name = "SpotlightStatusStrip";
-            this.SpotlightStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.SpotlightStatusStrip.Size = new System.Drawing.Size(1045, 23);
+            this.SpotlightStatusStrip.Size = new System.Drawing.Size(784, 22);
             this.SpotlightStatusStrip.TabIndex = 4;
             // 
             // SpotlightToolStripStatusLabel
             // 
             this.SpotlightToolStripStatusLabel.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SpotlightToolStripStatusLabel.Name = "SpotlightToolStripStatusLabel";
-            this.SpotlightToolStripStatusLabel.Size = new System.Drawing.Size(101, 17);
+            this.SpotlightToolStripStatusLabel.Size = new System.Drawing.Size(91, 17);
             this.SpotlightToolStripStatusLabel.Text = "Spotlight 0.8.0.0";
             // 
             // toolStripTextBox1
@@ -751,10 +737,9 @@
             this.CancelAddObjectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelAddObjectButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.CancelAddObjectButton.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CancelAddObjectButton.Location = new System.Drawing.Point(955, 666);
-            this.CancelAddObjectButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelAddObjectButton.Location = new System.Drawing.Point(716, 541);
             this.CancelAddObjectButton.Name = "CancelAddObjectButton";
-            this.CancelAddObjectButton.Size = new System.Drawing.Size(88, 23);
+            this.CancelAddObjectButton.Size = new System.Drawing.Size(66, 19);
             this.CancelAddObjectButton.TabIndex = 5;
             this.CancelAddObjectButton.Text = "Cancel";
             this.CancelAddObjectButton.UseVisualStyleBackColor = true;
@@ -763,17 +748,16 @@
             // 
             // LevelEditorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 690);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.CancelAddObjectButton);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.SpotlightMenuStrip);
             this.Controls.Add(this.SpotlightStatusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.SpotlightMenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1061, 728);
+            this.MinimumSize = new System.Drawing.Size(800, 599);
             this.Name = "LevelEditorForm";
             this.Text = "SpotLight";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LevelEditorForm_FormClosing);

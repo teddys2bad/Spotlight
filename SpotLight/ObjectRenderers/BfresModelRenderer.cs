@@ -28,9 +28,43 @@ namespace Spotlight.ObjectRenderers
     public static class BfresModelRenderer
     {
         private static bool initialized = false;
+        // Performance toggles and simple state cache
+        public static bool EnableOutlinePass = true; // set to false to skip extra outline/stencil passes
+
+        // Last-bound texture state to avoid redundant binds/param sets
+        private static int _lastTex2D = -1;
+        private static int _lastWrapS = int.MinValue;
+        private static int _lastWrapT = int.MinValue;
+
+        // Anisotropic filtering support (queried at Initialize)
+        private static bool _hasAnisoExt = false;
+        private static float _maxAniso = 0f;
+
+        private static void BindTex2DWithWrap(int tex, int wrapS, int wrapT)
+        {
+            if (tex != _lastTex2D)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, tex);
+                _lastTex2D = tex;
+                // force reapply wrap for a new binding
+                _lastWrapS = int.MinValue;
+                _lastWrapT = int.MinValue;
+            }
+            if (wrapS != _lastWrapS)
+            {
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, wrapS);
+                _lastWrapS = wrapS;
+            }
+            if (wrapT != _lastWrapT)
+            {
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, wrapT);
+                _lastWrapT = wrapT;
+            }
+        }
+
 
         public static ShaderProgram BfresShaderProgram;
-        
+
         private static readonly Dictionary<string, CachedModel> cache = new Dictionary<string, CachedModel>();
 
         private static readonly Dictionary<string, Dictionary<string, int>> texArcCache = new Dictionary<string, Dictionary<string, int>>();
@@ -105,6 +139,21 @@ namespace Spotlight.ObjectRenderers
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb8, 1, 1, 0, PixelFormat.Bgr, PixelType.UnsignedByte, new uint[] { 0xFFFFFFFF });
             bmp.UnlockBits(bmpData);
 
+
+            // Query anisotropic filtering support once
+            try
+            {
+                string ext = GL.GetString(StringName.Extensions);
+                if (!string.IsNullOrEmpty(ext) && ext.Contains("GL_EXT_texture_filter_anisotropic"))
+                {
+                    _hasAnisoExt = true;
+                    float max;
+                    GL.GetFloat((GetPName)All.MaxTextureMaxAnisotropyExt, out max);
+                    _maxAniso = max;
+                }
+            }
+            catch { }
+
             initialized = true;
         }
 
@@ -112,10 +161,10 @@ namespace Spotlight.ObjectRenderers
         {
             //try
             //{
-                ResFile bfres = new ResFile(stream);
+            ResFile bfres = new ResFile(stream);
 
-                if (!cache.ContainsKey(modelName) && bfres.Models.Count > 0)
-                    cache[modelName] = new CachedModel(bfres, textureArc);
+            if (!cache.ContainsKey(modelName) && bfres.Models.Count > 0)
+                cache[modelName] = new CachedModel(bfres, textureArc);
             //}
             //catch (Exception e) 
             //{
@@ -148,18 +197,18 @@ namespace Spotlight.ObjectRenderers
             if (cache.ContainsKey(ModelName))
             {
                 cache.Remove(ModelName);
-                Submit(ModelName, new MemoryStream(SARCExt.SARC.UnpackRamN(new MemoryStream(YAZ0.Decompress(Program.TryGetPathViaProject("ObjectData", ModelName+".szs")))).Files[ModelName+".bfres"]));
+                Submit(ModelName, new MemoryStream(SARCExt.SARC.UnpackRamN(new MemoryStream(YAZ0.Decompress(Program.TryGetPathViaProject("ObjectData", ModelName + ".szs")))).Files[ModelName + ".bfres"]));
             }
         }
 
         public sealed class CachedModel
         {
-            static readonly float white = BitConverter.ToSingle(new byte[] {255, 255, 255, 255},0);
+            static readonly float white = BitConverter.ToSingle(new byte[] { 255, 255, 255, 255 }, 0);
 
             readonly VertexArrayObject[] vaos;
             readonly int[] indexBufferLengths;
             readonly int[] textures;
-            readonly (int,int)[] wrapModes;
+            readonly (int, int)[] wrapModes;
             readonly Pass[] passes;
 
             public CachedModel(ResFile bfres, string textureArc)
@@ -168,22 +217,22 @@ namespace Spotlight.ObjectRenderers
 
                 if (loadTextures && textureArc != null && File.Exists(Program.TryGetPathViaProject("ObjectData", textureArc + ".szs")) /*&& textureArc != "SingleModeBossSharedTextures" && textureArc != "SingleModeSharedTextures"*/)
                 {
-                        if (!texArcCache.ContainsKey(textureArc))
-                        {
-                            SARCExt.SarcData objArc = SARCExt.SARC.UnpackRamN(YAZ0.Decompress(Program.TryGetPathViaProject("ObjectData", textureArc + ".szs")));
+                    if (!texArcCache.ContainsKey(textureArc))
+                    {
+                        SARCExt.SarcData objArc = SARCExt.SARC.UnpackRamN(YAZ0.Decompress(Program.TryGetPathViaProject("ObjectData", textureArc + ".szs")));
 
-                            Dictionary<string, int> arc = new Dictionary<string, int>();
-                            texArcCache.Add(textureArc, arc);
-                            foreach (KeyValuePair<string, TextureShared> textureEntry in new ResFile(new MemoryStream(objArc.Files[textureArc + ".bfres"])).Textures)
-                            {
-                                arc.Add(textureEntry.Key, UploadTexture(textureEntry.Value));
-                            }
+                        Dictionary<string, int> arc = new Dictionary<string, int>();
+                        texArcCache.Add(textureArc, arc);
+                        foreach (KeyValuePair<string, TextureShared> textureEntry in new ResFile(new MemoryStream(objArc.Files[textureArc + ".bfres"])).Textures)
+                        {
+                            arc.Add(textureEntry.Key, UploadTexture(textureEntry.Value));
                         }
+                    }
                 }
-                else if(loadTextures && textureArc != null)
+                else if (loadTextures && textureArc != null)
                 {
                     var filePath = Program.TryGetPathViaProject("ObjectData", textureArc);
-                    if(Directory.Exists(filePath))
+                    if (Directory.Exists(filePath))
                     {
                         if (!texArcCache.ContainsKey(textureArc))
                         {
@@ -215,22 +264,22 @@ namespace Spotlight.ObjectRenderers
                                 //imageForm.Show();
                             }
                         }
-                        
+
                     }
-                    
+
                 }
 
                 Model mdl = bfres.Models[0];
 
                 vaos = new VertexArrayObject[mdl.Shapes.Count];
                 indexBufferLengths = new int[mdl.Shapes.Count];
-                textures           = new int[mdl.Shapes.Count];
-                wrapModes =    new (int,int)[mdl.Shapes.Count];
+                textures = new int[mdl.Shapes.Count];
+                wrapModes = new (int, int)[mdl.Shapes.Count];
                 passes = new Pass[mdl.Shapes.Count];
-                
+
                 int shapeIndex = 0;
 
-                foreach(Shape shape in mdl.Shapes.Values)
+                foreach (Shape shape in mdl.Shapes.Values)
                 {
                     uint[] indices = shape.Meshes[0].GetIndices().ToArray();
 
@@ -252,19 +301,19 @@ namespace Spotlight.ObjectRenderers
                                                 mdl.Materials[shape.MaterialIndex].TextureRefs[i].Texture = bfres.Textures["CheckpointFlagMark_alb.1"];
                                             break;
                                         case "Luigi":
-                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.2"))
+                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.1"))
                                                 mdl.Materials[shape.MaterialIndex].TextureRefs[i].Texture = bfres.Textures["CheckpointFlagMark_alb.2"];
                                             break;
                                         case "Peach":
-                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.3"))
+                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.1"))
                                                 mdl.Materials[shape.MaterialIndex].TextureRefs[i].Texture = bfres.Textures["CheckpointFlagMark_alb.3"];
                                             break;
                                         case "Toad":
-                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.4"))
+                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.1"))
                                                 mdl.Materials[shape.MaterialIndex].TextureRefs[i].Texture = bfres.Textures["CheckpointFlagMark_alb.4"];
                                             break;
                                         case "Rosalina":
-                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.5"))
+                                            if (bfres.Textures.ContainsKey("CheckpointFlagMark_alb.1"))
                                                 mdl.Materials[shape.MaterialIndex].TextureRefs[i].Texture = bfres.Textures["CheckpointFlagMark_alb.5"];
                                             break;
                                         default:
@@ -339,7 +388,7 @@ namespace Spotlight.ObjectRenderers
                     bool use_vtx_col = true;
 
 #if ODYSSEY
-                    if(mdl.Materials[shape.MaterialIndex].ShaderAssign.ShaderOptions.TryGetValue("vtxcolor_type", out ResString resString))
+                    if (mdl.Materials[shape.MaterialIndex].ShaderAssign.ShaderOptions.TryGetValue("vtxcolor_type", out ResString resString))
                         use_vtx_col = resString.String != "-1";
 #else
                     if (mdl.Materials[shape.MaterialIndex].ShaderAssign.ShaderOptions.TryGetValue("VtxColorType", out ResString resString))
@@ -385,8 +434,8 @@ namespace Spotlight.ObjectRenderers
                             case "_u2":
                                 vec4uv2 = helper["_u2"].Data;
                                 break;
-                            case "_c0": 
-                                if(use_vtx_col)  
+                            case "_c0":
+                                if (use_vtx_col)
                                     vec4c0 = helper["_c0"].Data;
                                 break;
                             case "_t0":
@@ -498,7 +547,7 @@ namespace Spotlight.ObjectRenderers
                         bufferData[_i] = pos.X * 0.01f;
                         bufferData[_i + 1] = pos.Y * 0.01f;
                         bufferData[_i + 2] = pos.Z * 0.01f;
-                        if (vec4uv0.Length>0)
+                        if (vec4uv0.Length > 0)
                         {
                             bufferData[_i + 3] = uv0.X;
                             bufferData[_i + 4] = uv0.Y;
@@ -583,11 +632,11 @@ namespace Spotlight.ObjectRenderers
 
             public void Draw(GL_ControlModern control, Pass pass, Vector4 highlightColor)
             {
-#region model rendering prepare
+                #region model rendering prepare
                 switch (pass)
                 {
                     case Pass.OPAQUE:
-                        if (highlightColor.W != 0)
+                        if (BfresModelRenderer.EnableOutlinePass && highlightColor.W != 0)
                         {
                             //prevents the highlight/outline from drawing the whole wireframe
                             GL.Enable(EnableCap.StencilTest);
@@ -618,9 +667,9 @@ namespace Spotlight.ObjectRenderers
                         control.CurrentShader.SetVector4("color", control.NextPickingColor());
                         break;
                 }
-#endregion
+                #endregion
 
-                for (int i = 0; i<vaos.Length; i++)
+                for (int i = 0; i < vaos.Length; i++)
                 {
                     if (pass == Pass.PICKING)
                     {
@@ -633,21 +682,16 @@ namespace Spotlight.ObjectRenderers
                         if (pass == passes[i]) //is up for rendering
                         {
                             //prepare for textured drawing
-                            if (textures[i] == -1)
-                                GL.BindTexture(TextureTarget.Texture2D, NoTetxure);
-                            else if (textures[i] == -2)
-                                GL.BindTexture(TextureTarget.Texture2D, DefaultTetxure);
-                            else
-                                GL.BindTexture(TextureTarget.Texture2D, textures[i]);
-
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, wrapModes[i].Item1);
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, wrapModes[i].Item2);
+                            {
+                                int __tex = (textures[i] == -1) ? NoTetxure : (textures[i] == -2) ? DefaultTetxure : textures[i];
+                                BfresModelRenderer.BindTex2DWithWrap(__tex, wrapModes[i].Item1, wrapModes[i].Item2);
+                            }
 
                             vaos[i].Use(control);
 
                             GL.DrawElements(BeginMode.Triangles, indexBufferLengths[i], DrawElementsType.UnsignedInt, 0);
                         }
-                        else if (pass == Pass.OPAQUE && highlightColor.W != 0) //still needs to render (but invisible) for the outline effect to work
+                        else if (BfresModelRenderer.EnableOutlinePass && pass == Pass.OPAQUE && highlightColor.W != 0) //still needs to render (but invisible) for the outline effect to work
                         {
                             GL.ColorMask(false, false, false, false);
                             GL.DepthMask(false);
@@ -666,7 +710,7 @@ namespace Spotlight.ObjectRenderers
 
 
                 //Draw highlight/outline
-                if (pass == Pass.OPAQUE && highlightColor.W != 0)
+                if (BfresModelRenderer.EnableOutlinePass && pass == Pass.OPAQUE && highlightColor.W != 0)
                 {
                     control.CurrentShader = Framework.SolidColorShaderProgram;
                     control.CurrentShader.SetVector4("color", new Vector4(highlightColor.Xyz, 1));
@@ -679,13 +723,13 @@ namespace Spotlight.ObjectRenderers
 
                     GL.PolygonMode(MaterialFace.Front, PolygonMode.Line);
 
-                    
+
                     for (int i = 0; i < vaos.Length; i++)
                     {
                         vaos[i].Use(control);
                         GL.DrawElements(BeginMode.Triangles, indexBufferLengths[i], DrawElementsType.UnsignedInt, 0);
                     }
-                    
+
 
                     GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
 
@@ -702,15 +746,10 @@ namespace Spotlight.ObjectRenderers
                 {
                     if (passes[i] == Pass.OPAQUE)
                     {
-                        if (textures[i] == -1)
-                            GL.BindTexture(TextureTarget.Texture2D, NoTetxure);
-                        else if (textures[i] == -2)
-                            GL.BindTexture(TextureTarget.Texture2D, DefaultTetxure);
-                        else
-                            GL.BindTexture(TextureTarget.Texture2D, textures[i]);
-
-                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, wrapModes[i].Item1);
-                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, wrapModes[i].Item2);
+                        {
+                            int __tex = (textures[i] == -1) ? NoTetxure : (textures[i] == -2) ? DefaultTetxure : textures[i];
+                            BfresModelRenderer.BindTex2DWithWrap(__tex, wrapModes[i].Item1, wrapModes[i].Item2);
+                        }
 
                         vaos[i].Use(control);
 
@@ -737,15 +776,10 @@ namespace Spotlight.ObjectRenderers
                 {
                     if (passes[i] == Pass.TRANSPARENT)
                     {
-                        if (textures[i] == -1)
-                            GL.BindTexture(TextureTarget.Texture2D, NoTetxure);
-                        else if (textures[i] == -2)
-                            GL.BindTexture(TextureTarget.Texture2D, DefaultTetxure);
-                        else
-                            GL.BindTexture(TextureTarget.Texture2D, textures[i]);
-
-                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, wrapModes[i].Item1);
-                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, wrapModes[i].Item2);
+                        {
+                            int __tex = (textures[i] == -1) ? NoTetxure : (textures[i] == -2) ? DefaultTetxure : textures[i];
+                            BfresModelRenderer.BindTex2DWithWrap(__tex, wrapModes[i].Item1, wrapModes[i].Item2);
+                        }
 
                         vaos[i].Use(control);
 
@@ -779,7 +813,7 @@ namespace Spotlight.ObjectRenderers
                 }
 
                 var builder = new MeshBuilder<VertexPosition, VertexColor1Texture1>();
-                
+
                 for (int i = 0; i < vaos.Length; i++)
                 {
                     GL.BindBuffer(BufferTarget.ArrayBuffer, vaos[i].buffer);
@@ -797,11 +831,11 @@ namespace Spotlight.ObjectRenderers
                     float[] dataB = new float[6];
                     float[] dataC = new float[6];
 
-                    for (int j = 0; j < indexCount; j+=3)
+                    for (int j = 0; j < indexCount; j += 3)
                     {
                         GL.GetBufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 6 * indices[j]), sizeof(float) * 6, dataA);
-                        GL.GetBufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 6 * indices[j+1]), sizeof(float) * 6, dataB);
-                        GL.GetBufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 6 * indices[j+2]), sizeof(float) * 6, dataC);
+                        GL.GetBufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 6 * indices[j + 1]), sizeof(float) * 6, dataB);
+                        GL.GetBufferSubData(BufferTarget.ArrayBuffer, new IntPtr(sizeof(float) * 6 * indices[j + 2]), sizeof(float) * 6, dataC);
 
                         primitive.AddTriangle(Vertex(dataA), Vertex(dataB), Vertex(dataC));
                     }
@@ -996,11 +1030,11 @@ namespace Spotlight.ObjectRenderers
             }
 
 
-            
+
             int tex = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, tex);
 
-            
+
             //if (texture.Format == GX2SurfaceFormat.T_BC4_UNorm)
             //{
             //    deswizzled = DDSCompressor.DecompressBC4_JPH(deswizzled, (int)texture.Width, (int)texture.Height, false);
@@ -1056,6 +1090,15 @@ namespace Spotlight.ObjectRenderers
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
+
+            // Apply modest anisotropy if supported (helps texture sampling cost without being too heavy)
+            if (_hasAnisoExt)
+            {
+                float desired = 2.0f;
+                float aniso = (_maxAniso > 0f && _maxAniso < desired) ? _maxAniso : desired;
+                GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)All.TextureMaxAnisotropyExt, aniso);
+            }
+
 
             return tex;
         }
