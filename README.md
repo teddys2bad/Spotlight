@@ -13,7 +13,7 @@ A full guide to Spotlight can be found on the [Spotlight Wiki](https://github.co
 
 ## Compiling from Source
 
-To compile Spotlight you will need to download it to a folder also containing the <a href="https://github.com/Kirbymimi/GL_EditorFramework">GL_EditorFramework</a><br/> repository.
+To compile Moonlight you will need to download it to a folder also containing the <a href="https://github.com/Kirbymimi/GL_EditorFramework">GL_EditorFramework</a><br/> repository.
 The folder layout should look like this:<br/>
 <br/>
 ![image](https://user-images.githubusercontent.com/44330283/76013595-05647e00-5ecd-11ea-8c04-0752df56e593.png)
