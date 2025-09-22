@@ -289,12 +289,13 @@
             this.ToQuickFavoritesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ToQuickFavoritesButton.Enabled = false;
             this.ToQuickFavoritesButton.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ToQuickFavoritesButton.Location = new System.Drawing.Point(749, 524);
+            this.ToQuickFavoritesButton.Location = new System.Drawing.Point(838, 495);
             this.ToQuickFavoritesButton.Name = "ToQuickFavoritesButton";
-            this.ToQuickFavoritesButton.Size = new System.Drawing.Size(132, 30);
+            this.ToQuickFavoritesButton.Size = new System.Drawing.Size(10, 30);
             this.ToQuickFavoritesButton.TabIndex = 6;
             this.ToQuickFavoritesButton.Text = "To QuickFavorites";
             this.ToQuickFavoritesButton.UseVisualStyleBackColor = true;
+            this.ToQuickFavoritesButton.Visible = false;
             this.ToQuickFavoritesButton.Click += new System.EventHandler(this.ToQuickFavoritesButton_Click);
             // 
             // SelectObjectButton
@@ -305,7 +306,7 @@
             this.SelectObjectButton.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SelectObjectButton.Location = new System.Drawing.Point(6, 524);
             this.SelectObjectButton.Name = "SelectObjectButton";
-            this.SelectObjectButton.Size = new System.Drawing.Size(737, 30);
+            this.SelectObjectButton.Size = new System.Drawing.Size(870, 30);
             this.SelectObjectButton.TabIndex = 5;
             this.SelectObjectButton.Text = "Select";
             this.SelectObjectButton.UseVisualStyleBackColor = true;
@@ -433,13 +434,11 @@
             // 
             this.RailsCountTextBox.BackColor = System.Drawing.SystemColors.Info;
             this.RailsCountTextBox.Location = new System.Drawing.Point(441, 440);
-            this.RailsCountTextBox.Multiline = false;
             this.RailsCountTextBox.Name = "RailsCountTextBox";
             this.RailsCountTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.RailsCountTextBox.Size = new System.Drawing.Size(434, 50);
+            this.RailsCountTextBox.Size = new System.Drawing.Size(434, 21);
             this.RailsCountTextBox.TabIndex = 500;
             this.RailsCountTextBox.Text = "2";
-            this.RailsCountTextBox.TextChanged += new System.EventHandler(PathShapeSelector.RailsCountTextBox_TextChanged);
             // 
             // AreasTab
             // 
@@ -506,6 +505,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.RailsTab.ResumeLayout(false);
+            this.RailsTab.PerformLayout();
             this.AreasTab.ResumeLayout(false);
             this.AreasTab.PerformLayout();
             this.ResumeLayout(false);
