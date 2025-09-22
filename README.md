@@ -22,11 +22,6 @@ These folders must contain their respective project repositories.
 (make sure to get rid of the -master in the end when downloading both)<br/>
 After that it should be ready to go.
 
-# Join Us
-This is not for odyssey but i dont feel like getting rid of it
-If you need help with the program or editing the game, you can Join the Cat Chat (<a href="https://discord.gg/9JGKSze">
-
-
 # Credits
 
 - JuPaHe64: Project Leader, Lead Programmer, GL Editor Framework Programmer
